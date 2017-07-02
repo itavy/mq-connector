@@ -1,0 +1,33 @@
+{
+  "name": "@itavy/mq-connector",
+  "version": "0.0.0",
+  "description": "Interface for mq connectivity for mq-router",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha",
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
+    "coverage:check": "./node_modules/.bin/istanbul check-coverage",
+    "test:check-style": "./node_modules/.bin/eslint index.js \"lib/**/*.js\" \"test/**/*.js\"",
+    "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
+    "pretest": "npm run test:check-style"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://git@bitbucket.org/itavy/mq-connector.git"
+  },
+  "author": "Octavian Ionescu <itavyg@gmail.com> (https://github.com/itavy)",
+  "license": "MIT",
+  "devDependencies": {
+    "@itavy/test-utilities": "^2.0.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-jsx-a11y": "^5.1.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eyes": "^0.1.8",
+    "jaguarjs-jsdoc": "^1.0.2",
+    "jsdoc": "^3.4.3",
+    "jsdoc-to-markdown": "^3.0.0",
+    "pre-commit": "^1.2.2"
+  }
+}
