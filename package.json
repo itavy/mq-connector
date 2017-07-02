@@ -13,12 +13,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://git@bitbucket.org/itavy/mq-connector.git"
+    "url": "git+https://github.com/itavy/mq-connector.git"
   },
+  "keywords": [
+    "mq",
+    "mq-connector",
+    "rabbitmq",
+    "nats"
+  ],
   "author": "Octavian Ionescu <itavyg@gmail.com> (https://github.com/itavy)",
   "license": "MIT",
   "devDependencies": {
     "@itavy/test-utilities": "^2.0.0",
+    "amqplib": "^0.5.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.6.1",
@@ -29,5 +36,8 @@
     "jsdoc": "^3.4.3",
     "jsdoc-to-markdown": "^3.0.0",
     "pre-commit": "^1.2.2"
+  },
+  "dependencies": {
+    "semver": "^5.3.0"
   }
 }
