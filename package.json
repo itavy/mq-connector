@@ -11,6 +11,9 @@
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "pretest": "npm run test:check-style"
   },
+  "pre-commit": [
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/itavy/mq-connector.git"
