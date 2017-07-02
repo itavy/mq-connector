@@ -41,6 +41,8 @@
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
+    "@itavy/ierror": "^1.0.2",
+    "debug": "^2.6.8",
     "semver": "^5.3.0"
   }
 }
