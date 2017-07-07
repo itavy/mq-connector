@@ -6,7 +6,7 @@ const fixtures = require('./Fixtures');
 
 const expect = testUtilities.getExpect();
 
-describe('Initializaton', () => {
+describe('Connect', () => {
   let sandbox;
   let testConnector;
 
@@ -33,8 +33,10 @@ describe('Initializaton', () => {
     return testConnector.connect()
       .should.be.rejected
       .then((response) => {
-        expect(response).to.have.property('name', 'MQ_CONNECT_ERROR');
-        expect(response.hasErrorWithName(fixtures.testingError.name)).to.be.equal(true);
+        fixtures.testExpectedError({
+          error: response,
+          name:  'MQ_CONNECT_ERROR',
+        });
         expect(connectFail.callCount).to.be.equal(1);
         expect(connectFail.getCall(0).args[0]).to.be.equal(fixtures.rabbitmqConnOptions.mqURI);
 

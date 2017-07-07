@@ -3,4 +3,9 @@
 describe('RabbitMQ Connector', () => {
   require('./Initialization'); // eslint-disable-line global-require
   require('./Connect'); // eslint-disable-line global-require
+  require('./ParsePublishOptions'); // eslint-disable-line global-require
+  require('./CheckExchange'); // eslint-disable-line global-require
+  require('./BindQueue'); // eslint-disable-line global-require
+  require('./CheckQueue'); // eslint-disable-line global-require
+  require('./ParseSubscribeOptions'); // eslint-disable-line global-require
 });
