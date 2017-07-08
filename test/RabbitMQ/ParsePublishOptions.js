@@ -6,7 +6,7 @@ const fixtures = require('./Fixtures');
 
 const expect = testUtilities.getExpect();
 
-describe('Connect', () => {
+describe('ParsePublishOptions', () => {
   let testConnector;
 
   beforeEach((done) => {

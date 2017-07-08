@@ -9,12 +9,14 @@ const rabbitmqConnOptions = {
 const generatedQueue = 'generatedQueue';
 
 const amqpChannel = {
-  publish:       () => Promise.resolve(),
+  publish:       () => Promise.resolve(true),
   checkExchange: () => Promise.resolve(),
   bindQueue:     () => Promise.resolve(),
   assertQueue:   (queue = generatedQueue) => Promise.resolve({
     queue,
   }),
+  consume:  () => Promise.resolve(),
+  prefetch: () => null,
 };
 
 const amqpConnection = {
@@ -49,11 +51,20 @@ const subscribeQueueRequest = {
   options: {
     prefetch: 13,
   },
+  consumer: () => null,
 };
 
 const subscribeTopicRequest = {
   exchange: 'testingExchange',
   topic:    'testing.topic.mq',
+  consumer: () => null,
+};
+
+const publishMessage = {
+  queue:    'testQueue',
+  exchange: '',
+  message:  Buffer.from('testmessage'),
+  options:  {},
 };
 
 /**
@@ -80,4 +91,5 @@ module.exports = {
   badMessageOnTopic,
   subscribeQueueRequest,
   subscribeTopicRequest,
+  publishMessage,
 };
