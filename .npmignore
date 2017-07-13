@@ -7,3 +7,5 @@ examples/
 jsdoc.json
 README.hbs
 test/
+Docker/
+rabbitmq-ctl.sh
