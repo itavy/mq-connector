@@ -21,6 +21,7 @@ const amqpChannel = {
 
 const amqpConnection = {
   createConfirmChannel: () => Promise.resolve(amqpChannel),
+  close:                () => null,
 };
 
 const amqpLib = {
