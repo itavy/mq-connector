@@ -42,8 +42,8 @@ describe('Subscribe', () => {
         expect(parseStub.getCall(0).args[0]).to.be.eql({
           queue:    fixtures.subscribeQueueRequest.queue,
           options:  fixtures.subscribeQueueRequest.options,
-          exchange: null,
-          topic:    null,
+          exchange: '',
+          topic:    '',
         });
 
         return Promise.resolve();

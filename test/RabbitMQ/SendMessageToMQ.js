@@ -28,7 +28,7 @@ describe('SendMessageToMQ', () => {
   });
 
   it('Should fail with known error', () => {
-    const publishStub = sandbox.stub(testConnector.publishChannel, 'publish').resolves(false);
+    const publishStub = sandbox.stub(testConnector.publishChannel, 'publish').returns(false);
 
     return testConnector.sendMessageToMQ(fixtures.publishMessage)
       .should.be.rejected

@@ -9,7 +9,7 @@ const rabbitmqConnOptions = {
 const generatedQueue = 'generatedQueue';
 
 const amqpChannel = {
-  publish:       () => Promise.resolve(true),
+  publish:       () => true,
   checkExchange: () => Promise.resolve(),
   bindQueue:     () => Promise.resolve(),
   assertQueue:   (queue = generatedQueue) => Promise.resolve({
