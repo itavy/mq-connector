@@ -32,7 +32,7 @@ describe('ParseSubscribeOptions', () => {
     .then((response) => {
       expect(response).to.have.property('name', 'MQ_PARSE_SUBSCRIBE_OPTIONS_ERROR');
       expect(response).to.have.property('severity', 'WARNING');
-      expect(response.hasErrorWithName('AssertionError')).to.be.equal(true);
+      expect(response.cause.name.indexOf('AssertionError')).to.not.be.equal(-1);
 
       return Promise.resolve();
     }));
@@ -43,7 +43,7 @@ describe('ParseSubscribeOptions', () => {
       .then((response) => {
         expect(response).to.have.property('name', 'MQ_PARSE_SUBSCRIBE_OPTIONS_ERROR');
         expect(response).to.have.property('severity', 'WARNING');
-        expect(response.hasErrorWithName('AssertionError')).to.be.equal(true);
+        expect(response.cause.name.indexOf('AssertionError')).to.not.be.equal(-1);
 
         return Promise.resolve();
       }));
