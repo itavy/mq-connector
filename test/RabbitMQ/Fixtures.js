@@ -68,6 +68,19 @@ const publishMessage = {
   options:  {},
 };
 
+const createChannelOptions = {
+  publish: {
+    name:  'publishChannel',
+    flag:  'creatingPC',
+    event: 'createdPublishChannel',
+  },
+  subscribe: {
+    name:  'subscribeChannel',
+    flag:  'creatingSC',
+    event: 'createdSubscribeChannel',
+  },
+};
+
 /**
  * tests if provided error has expected name and has cause a specific error
  * @param {IError} error error to be tested
@@ -90,6 +103,7 @@ module.exports = {
   messageOnQueueOnly,
   messageOnTopic,
   badMessageOnTopic,
+  createChannelOptions,
   subscribeQueueRequest,
   subscribeTopicRequest,
   publishMessage,
