@@ -17,8 +17,7 @@ describe('SendMessageToMQ', () => {
       {
         amqplib: fixtures.amqpLib,
       }));
-    testConnector.connect()
-      .then(() => done());
+    return done();
   });
 
   afterEach((done) => {
@@ -28,9 +27,13 @@ describe('SendMessageToMQ', () => {
   });
 
   it('Should fail with known error', () => {
-    const publishStub = sandbox.stub(testConnector.publishChannel, 'publish').returns(false);
+    const publishStub = sandbox.stub().returns(false);
 
-    return testConnector.sendMessageToMQ(fixtures.publishMessage)
+    return testConnector.sendMessageToMQ(Object.assign({}, fixtures.publishMessage, {
+      ch: {
+        publish: publishStub,
+      },
+    }))
       .should.be.rejected
       .then((response) => {
         expect(response).to.have.property('name', 'MQ_PUBLISH_MESSAGE_ERROR');
@@ -47,7 +50,11 @@ describe('SendMessageToMQ', () => {
   });
 
   it('Should resolve if message is accepted for delivery',
-    () => testConnector.sendMessageToMQ(fixtures.publishMessage)
+    () => testConnector.sendMessageToMQ(Object.assign({}, fixtures.publishMessage, {
+      ch: {
+        publish: () => true,
+      },
+    }))
       .should.be.fulfilled
       .then(() => Promise.resolve()));
 });

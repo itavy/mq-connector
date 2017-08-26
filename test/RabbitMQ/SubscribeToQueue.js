@@ -17,8 +17,7 @@ describe('SubscribeToQueue', () => {
       {
         amqplib: fixtures.amqpLib,
       }));
-    testConnector.connect()
-      .then(() => done());
+    return done();
   });
 
   afterEach((done) => {
@@ -28,10 +27,12 @@ describe('SubscribeToQueue', () => {
   });
 
   it('Should fail with known error', () => {
-    const prefetchStub = sandbox.stub(testConnector.subscribeChannel, 'prefetch')
+    const prefetchStub = sandbox.stub(fixtures.amqpChannel, 'prefetch')
       .throws(fixtures.testingError);
 
-    return testConnector.subscribeToQueue(fixtures.subscribeQueueRequest)
+    return testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
@@ -48,9 +49,11 @@ describe('SubscribeToQueue', () => {
   });
 
   it('Should register provided consumer', () => {
-    const subscribeSpy = sandbox.spy(testConnector.subscribeChannel, 'consume');
+    const subscribeSpy = sandbox.spy(fixtures.amqpChannel, 'consume');
 
-    return testConnector.subscribeToQueue(fixtures.subscribeQueueRequest)
+    return testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.fulfilled
       .then(() => {
         expect(subscribeSpy.callCount).to.be.equal(1);

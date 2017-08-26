@@ -17,8 +17,7 @@ describe('CheckExchange', () => {
       {
         amqplib: fixtures.amqpLib,
       }));
-    testConnector.connect()
-      .then(() => done());
+    return done();
   });
 
   afterEach((done) => {
@@ -28,10 +27,10 @@ describe('CheckExchange', () => {
   });
 
   it('Should resolve if exchange exists', () => {
-    const checkExchangeStub = sandbox.spy(testConnector.publishChannel, 'checkExchange');
+    const checkExchangeStub = sandbox.spy(fixtures.amqpChannel, 'checkExchange');
 
     return testConnector.checkExchange({
-      channel:  testConnector.publishChannel,
+      channel:  fixtures.amqpChannel,
       exchange: fixtures.messageOnTopic.exchange,
     })
       .should.be.fulfilled
@@ -44,10 +43,10 @@ describe('CheckExchange', () => {
   });
 
   it('Should fail with expected error if exchange does not exists', () => {
-    sandbox.stub(testConnector.publishChannel, 'checkExchange').rejects(fixtures.testingError);
+    sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
     return testConnector.checkExchange({
-      channel:  testConnector.publishChannel,
+      channel:  fixtures.amqpChannel,
       exchange: fixtures.messageOnTopic.exchange,
     })
       .should.be.rejected

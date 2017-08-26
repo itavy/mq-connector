@@ -17,8 +17,7 @@ describe('BindQueue', () => {
       {
         amqplib: fixtures.amqpLib,
       }));
-    testConnector.connect()
-      .then(() => done());
+    return done();
   });
 
   afterEach((done) => {
@@ -27,18 +26,12 @@ describe('BindQueue', () => {
     done();
   });
 
-  it('Should resolve with queue if exchange is empty',
-    () => testConnector.bindQueue(fixtures.messageOnQueueOnly)
-      .should.be.fulfilled
-      .then((response) => {
-        expect(response).to.be.eql({ queue: fixtures.messageOnQueueOnly.queue });
-        return Promise.resolve();
-      }));
-
   it('Should fail with expected error', () => {
-    sandbox.stub(testConnector.subscribeChannel, 'bindQueue').rejects(fixtures.testingError);
+    sandbox.stub(fixtures.amqpChannel, 'bindQueue').rejects(fixtures.testingError);
 
-    return testConnector.bindQueue(fixtures.messageOnTopic)
+    return testConnector.bindQueue(Object.assign({}, fixtures.messageOnTopic, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
@@ -50,9 +43,11 @@ describe('BindQueue', () => {
   });
 
   it('Should resolve with provided queue binded', () => {
-    const chBindQueue = sandbox.spy(testConnector.subscribeChannel, 'bindQueue');
+    const chBindQueue = sandbox.spy(fixtures.amqpChannel, 'bindQueue');
 
-    return testConnector.bindQueue(fixtures.messageOnTopic)
+    return testConnector.bindQueue(Object.assign({}, fixtures.messageOnTopic, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.be.eql({ queue: fixtures.messageOnQueueOnly.queue });

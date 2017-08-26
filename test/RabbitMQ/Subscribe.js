@@ -17,8 +17,7 @@ describe('Subscribe', () => {
       {
         amqplib: fixtures.amqpLib,
       }));
-    testConnector.connect()
-      .then(() => done());
+    return done();
   });
 
   afterEach((done) => {
@@ -28,6 +27,22 @@ describe('Subscribe', () => {
   });
 
   it('Should fail with known error', () => {
+    const parseStub = sandbox.stub(testConnector, 'getSubscribeChannel')
+      .rejects(fixtures.testingError);
+
+    return testConnector.subscribe(fixtures.subscribeQueueRequest)
+      .should.be.rejected
+      .then((response) => {
+        fixtures.testExpectedError({
+          error: response,
+          name:  'MQ_SUBSCRIBE_ERROR',
+        });
+        expect(parseStub.callCount).to.be.equal(1);
+        return Promise.resolve();
+      });
+  });
+
+  it('Should fail with known error for subscribing', () => {
     const parseStub = sandbox.stub(testConnector, 'parseSubscribeOptions')
       .rejects(fixtures.testingError);
 
@@ -44,6 +59,7 @@ describe('Subscribe', () => {
           options:  fixtures.subscribeQueueRequest.options,
           exchange: '',
           topic:    '',
+          ch:       fixtures.amqpChannel,
         });
 
         return Promise.resolve();
@@ -51,7 +67,7 @@ describe('Subscribe', () => {
   });
 
   it('Should fail with fatal error if provided', () => {
-    sandbox.stub(testConnector.subscribeChannel, 'checkExchange').rejects(fixtures.testingError);
+    sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
     return testConnector.subscribe(fixtures.subscribeTopicRequest)
       .should.be.rejected
@@ -67,7 +83,7 @@ describe('Subscribe', () => {
   });
 
   it('Should subscribe to provided queue', () => {
-    const subscribeSpy = sandbox.spy(testConnector.subscribeChannel, 'consume');
+    const subscribeSpy = sandbox.spy(fixtures.amqpChannel, 'consume');
 
     return testConnector.subscribe(fixtures.subscribeQueueRequest)
       .should.be.fulfilled

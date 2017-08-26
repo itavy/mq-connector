@@ -17,8 +17,7 @@ describe('ParseSubscribeOptions', () => {
       {
         amqplib: fixtures.amqpLib,
       }));
-    testConnector.connect()
-      .then(() => done());
+    return done();
   });
 
   afterEach((done) => {
@@ -49,9 +48,11 @@ describe('ParseSubscribeOptions', () => {
       }));
 
   it('Should reject with fatal error', () => {
-    sandbox.stub(testConnector.subscribeChannel, 'checkExchange').rejects(fixtures.testingError);
+    sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
-    return testConnector.parseSubscribeOptions(fixtures.messageOnTopic)
+    return testConnector.parseSubscribeOptions(Object.assign({}, fixtures.messageOnTopic, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
@@ -64,7 +65,9 @@ describe('ParseSubscribeOptions', () => {
   });
 
   it('Should resolve with provided queue and options',
-    () => testConnector.parseSubscribeOptions(fixtures.subscribeQueueRequest)
+    () => testConnector.parseSubscribeOptions(Object.assign({}, fixtures.subscribeQueueRequest, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('queue', fixtures.subscribeQueueRequest.queue);
@@ -74,7 +77,9 @@ describe('ParseSubscribeOptions', () => {
       }));
 
   it('Should resolve with generated queue and default options',
-    () => testConnector.parseSubscribeOptions(fixtures.subscribeTopicRequest)
+    () => testConnector.parseSubscribeOptions(Object.assign({}, fixtures.subscribeTopicRequest, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('queue', fixtures.generatedQueue);

@@ -17,8 +17,7 @@ describe('CheckQueue', () => {
       {
         amqplib: fixtures.amqpLib,
       }));
-    testConnector.connect()
-      .then(() => done());
+    return done();
   });
 
   afterEach((done) => {
@@ -28,9 +27,11 @@ describe('CheckQueue', () => {
   });
 
   it('Should reject if there is an error checking queue', () => {
-    sandbox.stub(testConnector.subscribeChannel, 'assertQueue').rejects(fixtures.testingError);
+    sandbox.stub(fixtures.amqpChannel, 'assertQueue').rejects(fixtures.testingError);
 
-    return testConnector.checkQueue(fixtures.messageOnQueueOnly)
+    return testConnector.checkQueue(Object.assign({}, fixtures.messageOnQueueOnly, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
@@ -43,9 +44,11 @@ describe('CheckQueue', () => {
   });
 
   it('Should reject with fatal error', () => {
-    sandbox.stub(testConnector.subscribeChannel, 'checkExchange').rejects(fixtures.testingError);
+    sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
-    return testConnector.checkQueue(fixtures.messageOnTopic)
+    return testConnector.checkQueue(Object.assign({}, fixtures.messageOnTopic, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
@@ -59,9 +62,11 @@ describe('CheckQueue', () => {
   });
 
   it('Should resolve with provided queue', () => {
-    const assertQueueSpy = sandbox.spy(testConnector.subscribeChannel, 'assertQueue');
+    const assertQueueSpy = sandbox.spy(fixtures.amqpChannel, 'assertQueue');
 
-    testConnector.checkQueue(fixtures.messageOnQueueOnly)
+    testConnector.checkQueue(Object.assign({}, fixtures.messageOnQueueOnly, {
+      ch: fixtures.amqpChannel,
+    }))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('queue', fixtures.messageOnQueueOnly.queue);
@@ -78,6 +83,7 @@ describe('CheckQueue', () => {
     () => testConnector.checkQueue({
       exchange: fixtures.messageOnTopic.exchange,
       topic:    fixtures.messageOnTopic.topic,
+      ch:       fixtures.amqpChannel,
     })
       .should.be.fulfilled
       .then((response) => {
