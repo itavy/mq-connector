@@ -15,13 +15,15 @@ const amqpChannel = {
   assertQueue:   (queue = generatedQueue) => Promise.resolve({
     queue,
   }),
-  consume:  () => Promise.resolve(),
-  prefetch: () => null,
+  consume:         () => Promise.resolve(),
+  prefetch:        () => null,
+  close:           () => Promise.resolve(),
+  waitForConfirms: () => Promise.resolve(),
 };
 
 const amqpConnection = {
   createConfirmChannel: () => Promise.resolve(amqpChannel),
-  close:                () => null,
+  close:                () => Promise.resolve(),
 };
 
 const amqpLib = {
@@ -80,6 +82,18 @@ const createChannelOptions = {
     event: 'createdSubscribeChannel',
   },
 };
+const closeChannelOptions = {
+  publish: {
+    name:  'publishChannel',
+    flag:  'closingPC',
+    event: 'closePublish',
+  },
+  subscribe: {
+    name:  'subscribeChannel',
+    flag:  'closingSC',
+    event: 'closeSubscribe',
+  },
+};
 
 /**
  * tests if provided error has expected name and has cause a specific error
@@ -104,6 +118,7 @@ module.exports = {
   messageOnTopic,
   badMessageOnTopic,
   createChannelOptions,
+  closeChannelOptions,
   subscribeQueueRequest,
   subscribeTopicRequest,
   publishMessage,
