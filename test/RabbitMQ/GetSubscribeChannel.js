@@ -6,7 +6,7 @@ const fixtures = require('./Fixtures');
 
 const expect = testUtilities.getExpect();
 
-describe('GetPublishChannel', () => {
+describe('GetSubscribeChannel', () => {
   let sandbox;
   let testConnector;
 
@@ -26,15 +26,15 @@ describe('GetPublishChannel', () => {
     done();
   });
 
-  it('Should fail for publish not allowed', () => {
-    testConnector.connectionFlags.publish = false;
+  it('Should fail for subscribe not allowed', () => {
+    testConnector.connectionFlags.subscribe = false;
 
-    return testConnector.getPublishChannel({})
+    return testConnector.getSubscribeChannel({})
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_PUBLISH_CHANNEL_ERROR',
+          name:  'MQ_SUBSCRIBE_CHANNEL_ERROR',
         });
 
         return Promise.resolve();
@@ -45,35 +45,35 @@ describe('GetPublishChannel', () => {
     const createChannelStub =
       sandbox.stub(testConnector, 'createChannel').rejects(fixtures.testingError);
 
-    return testConnector.getPublishChannel({})
+    return testConnector.getSubscribeChannel({})
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_PUBLISH_CHANNEL_ERROR',
+          name:  'MQ_SUBSCRIBE_CHANNEL_ERROR',
         });
 
         expect(createChannelStub.callCount).to.be.equal(1);
         expect(createChannelStub.getCall(0).args[0])
-          .to.be.eql(fixtures.createChannelOptions.publish);
+          .to.be.eql(fixtures.createChannelOptions.subscribe);
 
         return Promise.resolve();
       });
   });
 
-  it('Should resolve with publishChannel', () => testConnector.getPublishChannel()
+  it('Should resolve with subscribeChannel', () => testConnector.getSubscribeChannel()
     .should.be.fulfilled
     .then((response) => {
-      expect(response).to.be.equal(testConnector.publishChannel);
+      expect(response).to.be.equal(testConnector.subscribeChannel);
 
       return Promise.resolve();
     }));
 
-  it('Should resolve with existing channel', () => testConnector.getPublishChannel(fixtures.createChannelOptions.publish)
+  it('Should resolve with existing channel', () => testConnector.getSubscribeChannel(fixtures.createChannelOptions.subscribe)
     .then((ch) => {
       const createChannelSpy = sandbox.spy(testConnector, 'createChannel');
 
-      return testConnector.getPublishChannel(fixtures.createChannelOptions.publish)
+      return testConnector.getSubscribeChannel(fixtures.createChannelOptions.subscribe)
         .should.be.fulfilled
         .then((response) => {
           expect(response).to.be.equal(ch);
@@ -85,18 +85,18 @@ describe('GetPublishChannel', () => {
 
   it('Should resolve with same channel after first call succed', () => {
     const createChannelSpy = sandbox.spy();
-    let publishChannel;
+    let subscribeChannel;
 
-    testConnector.rmqEvents.on(fixtures.createChannelOptions.publish.event, createChannelSpy);
-    testConnector.getPublishChannel()
+    testConnector.rmqEvents.on(fixtures.createChannelOptions.subscribe.event, createChannelSpy);
+    testConnector.getSubscribeChannel()
       .then((response) => {
-        publishChannel = response;
+        subscribeChannel = response;
       });
 
-    return testConnector.getPublishChannel()
+    return testConnector.getSubscribeChannel()
       .should.be.fulfilled
       .then((response) => {
-        expect(response).to.be.equal(publishChannel);
+        expect(response).to.be.equal(subscribeChannel);
         expect(createChannelSpy.callCount).to.be.equal(1);
 
         return Promise.resolve();

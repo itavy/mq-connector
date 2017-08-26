@@ -6,6 +6,7 @@ describe('RabbitMQ Connector', () => {
   require('./GetConnection'); // eslint-disable-line global-require
   require('./CreateChannel'); // eslint-disable-line global-require
   require('./GetPublishChannel'); // eslint-disable-line global-require
+  require('./GetSubscribeChannel'); // eslint-disable-line global-require
   require('./Close'); // eslint-disable-line global-require
   require('./ParsePublishOptions'); // eslint-disable-line global-require
   require('./CheckExchange'); // eslint-disable-line global-require
