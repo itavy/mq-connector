@@ -1,0 +1,9 @@
+version: '3'
+services:
+  itavy-mq-connector-rabbitmq:
+    build:
+      context: ./test/Docker/RabbitMQ
+      dockerfile: Dockerfile
+    ports:
+      - "5672:5672"
+      - "15672:15672"
