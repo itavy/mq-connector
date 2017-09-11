@@ -10,7 +10,11 @@ const workQueues = {
     routingKey: 'test.qp1.t1',
     exchange:   'test-exchange1',
   },
-  receiveQueue: 'test-q-receive',
+  receiveQueue:   'test-q-receive',
+  bindTopicQueue: {
+    routingKey: `test.bind.${Date.now()}`,
+    exchange:   'test-exchange1',
+  },
 };
 
 const testMessages = {

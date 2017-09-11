@@ -24,11 +24,12 @@ tap.test('Send message on topic', (t) => {
     consumer: ({ message, ack, exchange, queue, topic }) => {
       ack();
       t.same(message, fixtures.testMessages.topicQueue);
-      t.equal(exchange, '');
-      t.equal(queue, fixtures.workQueues.receiveQueue);
-      t.equal(topic, fixtures.workQueues.receiveQueue);
+      t.ok(queue.length > 0);
+      t.equal(exchange, fixtures.workQueues.bindTopicQueue.exchange);
+      t.equal(topic, fixtures.workQueues.bindTopicQueue.routingKey);
     },
-    queue: fixtures.workQueues.receiveQueue,
+    exchange: fixtures.workQueues.bindTopicQueue.exchange,
+    topic:    fixtures.workQueues.bindTopicQueue.routingKey,
   })
     .then(() => amqplib.connect(fixtures.mqUri)
       .then((conn) => {
@@ -36,7 +37,8 @@ tap.test('Send message on topic', (t) => {
         return conn.createConfirmChannel();
       })
       .then((ch) => {
-        if (ch.publish('', fixtures.workQueues.receiveQueue, fixtures.testMessages.topicQueue)) {
+        if (ch.publish(fixtures.workQueues.bindTopicQueue.exchange,
+            fixtures.workQueues.bindTopicQueue.routingKey, fixtures.testMessages.topicQueue)) {
           return Promise.resolve();
         }
         return Promise.reject(Error('Error publish'));
