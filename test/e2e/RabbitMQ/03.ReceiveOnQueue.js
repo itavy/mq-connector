@@ -6,7 +6,7 @@ const amqplib = require('amqplib');
 
 const tap = require('@itavy/test-utilities').getTap();
 
-tap.test('Send message on topic', (t) => {
+tap.test('Receive message on a provided queue', (t) => {
   t.plan(4);
   let testConnector;
   let assertConn;

@@ -15,11 +15,17 @@ const workQueues = {
     routingKey: `test.bind.${Date.now()}`,
     exchange:   'test-exchange1',
   },
+  prefetch: {
+    queue:      'test-queue-prefetch',
+    routingKey: `test.bind.${Date.now()}`,
+    exchange:   'test-exchange1',
+  },
 };
 
 const testMessages = {
   simpleQueue: Buffer.from('test message queue'),
   topicQueue:  Buffer.from('test message topic'),
+  topicQueue2: Buffer.from('test message topic2'),
 };
 
 module.exports = {
