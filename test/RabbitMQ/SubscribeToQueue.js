@@ -62,4 +62,14 @@ describe('SubscribeToQueue', () => {
         return Promise.resolve();
       });
   });
+
+  it('Should return queue where it subscribed', () =>
+    testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
+      ch: fixtures.amqpChannel,
+    }))
+      .should.be.fulfilled
+      .then((response) => {
+        expect(response).to.have.property('queue');
+        return Promise.resolve();
+      }));
 });
