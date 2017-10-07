@@ -21,12 +21,12 @@ tap.test('Receive message on a provided queue', (t) => {
   });
 
   testConnector.subscribe({
-    consumer: ({ message, ack, exchange, queue, topic }) => {
-      ack();
+    consumer: ({ message, exchange, queue, topic }) => {
       t.same(message, fixtures.testMessages.topicQueue);
       t.equal(exchange, '');
       t.equal(queue, fixtures.workQueues.receiveQueue);
       t.equal(topic, fixtures.workQueues.receiveQueue);
+      return Promise.resolve();
     },
     queue: fixtures.workQueues.receiveQueue,
   })

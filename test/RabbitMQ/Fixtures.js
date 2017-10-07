@@ -1,10 +1,13 @@
 'use strict';
 
 const expect = require('@itavy/test-utilities').getExpect();
+const crypto = require('crypto');
 
 const rabbitmqConnOptions = {
   mqURI: 'amqp://testuser:testpwd@slocalhost/vhost?heartbeat=1',
 };
+
+const consumerTag = crypto.randomBytes(32).toString('hex');
 
 const generatedQueue = 'generatedQueue';
 
@@ -15,7 +18,7 @@ const amqpChannel = {
   assertQueue:   (queue = generatedQueue) => Promise.resolve({
     queue,
   }),
-  consume:         () => Promise.resolve(),
+  consume:         () => Promise.resolve({ consumerTag }),
   prefetch:        () => null,
   close:           () => Promise.resolve(),
   waitForConfirms: () => Promise.resolve(),

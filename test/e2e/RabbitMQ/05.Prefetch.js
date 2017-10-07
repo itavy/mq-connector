@@ -29,13 +29,13 @@ tap.test('Send message on topic', (t) => {
   });
 
   testConnector.subscribe({
-    consumer: ({ message, ack, exchange, queue, topic }) => {
-      blockAck = ack;
+    consumer: ({ message, exchange, queue, topic }) => new Promise((resolve) => {
+      blockAck = resolve;
       t.same(message, fixtures.testMessages.topicQueue);
       t.equal(queue, fixtures.workQueues.prefetch.queue);
       t.equal(exchange, fixtures.workQueues.prefetch.exchange);
       t.equal(topic, fixtures.workQueues.prefetch.routingKey);
-    },
+    }),
     options: {
       prefetch: 1,
     },
@@ -44,12 +44,12 @@ tap.test('Send message on topic', (t) => {
     topic:    fixtures.workQueues.prefetch.routingKey,
   })
     .then(() => testConnector2.subscribe({
-      consumer: ({ message, ack, exchange, queue, topic }) => {
-        ack();
+      consumer: ({ message, exchange, queue, topic }) => {
         t.same(message, fixtures.testMessages.topicQueue2);
         t.equal(queue, fixtures.workQueues.prefetch.queue);
         t.equal(exchange, fixtures.workQueues.prefetch.exchange);
         t.equal(topic, fixtures.workQueues.prefetch.routingKey);
+        return Promise.resolve();
       },
       options: {
         prefetch: 1,
