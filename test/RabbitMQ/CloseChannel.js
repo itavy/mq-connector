@@ -12,11 +12,13 @@ describe('CloseChannel', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     done();
   });
 

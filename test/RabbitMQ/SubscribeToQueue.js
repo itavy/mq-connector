@@ -12,11 +12,11 @@ describe('SubscribeToQueue', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
-      {
-        amqplib: fixtures.amqpLib,
-      }));
+      { amqplib: fixtures.amqpLib }
+    ));
     return done();
   });
 
@@ -31,17 +31,17 @@ describe('SubscribeToQueue', () => {
       .throws(fixtures.testingError);
 
     return testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
-      ch: fixtures.amqpChannel,
+      ch: fixtures.amqpChannel
     }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SUBSCRIBE_ERROR',
+          name:  'MQ_SUBSCRIBE_ERROR'
         });
         expect(prefetchStub.callCount).to.be.equal(1);
         expect(prefetchStub.getCall(0).args).to.be.eql([
-          fixtures.subscribeQueueRequest.options.prefetch,
+          fixtures.subscribeQueueRequest.options.prefetch
         ]);
 
         return Promise.resolve();
@@ -52,7 +52,7 @@ describe('SubscribeToQueue', () => {
     const subscribeSpy = sandbox.spy(fixtures.amqpChannel, 'consume');
 
     return testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
-      ch: fixtures.amqpChannel,
+      ch: fixtures.amqpChannel
     }))
       .should.be.fulfilled
       .then(() => {
@@ -65,7 +65,7 @@ describe('SubscribeToQueue', () => {
 
   it('Should return queue where it subscribed', () =>
     testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
-      ch: fixtures.amqpChannel,
+      ch: fixtures.amqpChannel
     }))
       .should.be.fulfilled
       .then((response) => {

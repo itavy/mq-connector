@@ -12,11 +12,13 @@ describe('SendMessageToMQ', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     return done();
   });
 
@@ -31,8 +33,8 @@ describe('SendMessageToMQ', () => {
 
     return testConnector.sendMessageToMQ(Object.assign({}, fixtures.publishMessage, {
       ch: {
-        publish: publishStub,
-      },
+        publish: publishStub
+      }
     }))
       .should.be.rejected
       .then((response) => {
@@ -42,19 +44,21 @@ describe('SendMessageToMQ', () => {
           fixtures.publishMessage.exchange,
           fixtures.publishMessage.queue,
           fixtures.publishMessage.message,
-          fixtures.publishMessage.options,
+          fixtures.publishMessage.options
         ]);
 
         return Promise.resolve();
       });
   });
 
-  it('Should resolve if message is accepted for delivery',
+  it(
+    'Should resolve if message is accepted for delivery',
     () => testConnector.sendMessageToMQ(Object.assign({}, fixtures.publishMessage, {
       ch: {
-        publish: () => true,
-      },
+        publish: () => true
+      }
     }))
       .should.be.fulfilled
-      .then(() => Promise.resolve()));
+      .then(() => Promise.resolve())
+  );
 });

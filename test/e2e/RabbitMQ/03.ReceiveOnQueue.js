@@ -17,18 +17,20 @@ tap.test('Receive message on a provided queue', (t) => {
   });
 
   testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-    mqURI: fixtures.mqUri,
+    mqURI: fixtures.mqUri
   });
 
   testConnector.subscribe({
-    consumer: ({ message, exchange, queue, topic }) => {
+    consumer: ({
+      message, exchange, queue, topic
+    }) => {
       t.same(message, fixtures.testMessages.topicQueue);
       t.equal(exchange, '');
       t.equal(queue, fixtures.workQueues.receiveQueue);
       t.equal(topic, fixtures.workQueues.receiveQueue);
       return Promise.resolve();
     },
-    queue: fixtures.workQueues.receiveQueue,
+    queue: fixtures.workQueues.receiveQueue
   })
     .then(() => amqplib.connect(fixtures.mqUri)
       .then((conn) => {

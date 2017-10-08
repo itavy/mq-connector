@@ -17,7 +17,7 @@ tap.test('Send message on queue', (t) => {
   });
 
   testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-    mqURI: fixtures.mqUri,
+    mqURI: fixtures.mqUri
   });
 
   amqplib.connect(fixtures.mqUri)
@@ -30,7 +30,7 @@ tap.test('Send message on queue', (t) => {
     }, { noAck: true }))
     .then(() => testConnector.sendMessage({
       message: fixtures.testMessages.simpleQueue,
-      queue:   fixtures.workQueues.simpleQueue,
+      queue:   fixtures.workQueues.simpleQueue
     }))
     .catch(err => t.bailout(err));
 });

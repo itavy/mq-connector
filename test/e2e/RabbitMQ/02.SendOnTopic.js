@@ -17,7 +17,7 @@ tap.test('Send message on topic', (t) => {
   });
 
   testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-    mqURI: fixtures.mqUri,
+    mqURI: fixtures.mqUri
   });
 
   amqplib.connect(fixtures.mqUri)
@@ -33,7 +33,7 @@ tap.test('Send message on topic', (t) => {
     .then(() => testConnector.sendMessage({
       message:  fixtures.testMessages.topicQueue,
       queue:    fixtures.workQueues.topicQueue.routingKey,
-      exchange: fixtures.workQueues.topicQueue.exchange,
+      exchange: fixtures.workQueues.topicQueue.exchange
     }))
     .catch(err => t.bailout(err));
 });

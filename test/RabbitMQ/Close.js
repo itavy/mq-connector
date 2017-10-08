@@ -12,11 +12,13 @@ describe('Close', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     done();
   });
 
@@ -27,14 +29,14 @@ describe('Close', () => {
   });
 
   it('Should resolve if there is no connection', () => testConnector.close()
-      .should.be.fulfilled);
+    .should.be.fulfilled);
 
   it('Should close subscribe and publish channels before closing', () => {
     const closeStub = sandbox.stub(testConnector, 'closeChannel')
       .onCall(0)
-        .resolves()
+      .resolves()
       .onCall(1)
-        .rejects(fixtures.testingError);
+      .rejects(fixtures.testingError);
 
     return testConnector.getConnection()
       .then(() => testConnector.close()

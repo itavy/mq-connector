@@ -12,11 +12,13 @@ describe('SendMessage', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     return done();
   });
 
@@ -35,7 +37,7 @@ describe('SendMessage', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SEND_MESSAGE_ERROR',
+          name:  'MQ_SEND_MESSAGE_ERROR'
         });
         expect(parseStub.callCount).to.be.equal(1);
         expect(parseStub.getCall(0).args[0]).to.be.equal(fixtures.publishMessage.options);
@@ -53,7 +55,7 @@ describe('SendMessage', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SEND_MESSAGE_ERROR',
+          name:  'MQ_SEND_MESSAGE_ERROR'
         });
         expect(parseStub.callCount).to.be.equal(1);
 
@@ -73,7 +75,7 @@ describe('SendMessage', () => {
           queue:    fixtures.publishMessage.queue,
           message:  fixtures.publishMessage.message,
           options:  fixtures.publishMessage.options,
-          ch:       testConnector.publishChannel,
+          ch:       testConnector.publishChannel
         });
 
         return Promise.resolve();

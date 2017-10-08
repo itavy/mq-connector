@@ -10,11 +10,13 @@ describe('ParsePublishOptions', () => {
   let testConnector;
 
   beforeEach((done) => {
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     done();
   });
 
@@ -36,7 +38,7 @@ describe('ParsePublishOptions', () => {
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.be.eql({
-          expiration: `${ttlExpire}000`,
+          expiration: `${ttlExpire}000`
         });
         return Promise.resolve();
       });

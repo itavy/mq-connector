@@ -12,11 +12,13 @@ describe('Subscribe', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     return done();
   });
 
@@ -35,7 +37,7 @@ describe('Subscribe', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SUBSCRIBE_ERROR',
+          name:  'MQ_SUBSCRIBE_ERROR'
         });
         expect(parseStub.callCount).to.be.equal(1);
         return Promise.resolve();
@@ -51,7 +53,7 @@ describe('Subscribe', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SUBSCRIBE_ERROR',
+          name:  'MQ_SUBSCRIBE_ERROR'
         });
         expect(parseStub.callCount).to.be.equal(1);
         expect(parseStub.getCall(0).args[0]).to.be.eql({
@@ -59,7 +61,7 @@ describe('Subscribe', () => {
           options:  fixtures.subscribeQueueRequest.options,
           exchange: '',
           topic:    '',
-          ch:       fixtures.amqpChannel,
+          ch:       fixtures.amqpChannel
         });
 
         return Promise.resolve();
@@ -74,7 +76,7 @@ describe('Subscribe', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SUBSCRIBE_ERROR',
+          name:  'MQ_SUBSCRIBE_ERROR'
         });
         expect(response).to.have.property('severity', 'FATAL');
 

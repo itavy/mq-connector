@@ -12,11 +12,13 @@ describe('GetSubscribeChannel', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     done();
   });
 
@@ -34,7 +36,7 @@ describe('GetSubscribeChannel', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SUBSCRIBE_CHANNEL_ERROR',
+          name:  'MQ_SUBSCRIBE_CHANNEL_ERROR'
         });
 
         return Promise.resolve();
@@ -50,7 +52,7 @@ describe('GetSubscribeChannel', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SUBSCRIBE_CHANNEL_ERROR',
+          name:  'MQ_SUBSCRIBE_CHANNEL_ERROR'
         });
 
         expect(createChannelStub.callCount).to.be.equal(1);

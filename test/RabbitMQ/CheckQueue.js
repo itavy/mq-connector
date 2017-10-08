@@ -12,11 +12,13 @@ describe('CheckQueue', () => {
 
   beforeEach((done) => {
     sandbox = testUtilities.getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign({},
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib,
-      }));
+        amqplib: fixtures.amqpLib
+      }
+    ));
     return done();
   });
 
@@ -30,13 +32,13 @@ describe('CheckQueue', () => {
     sandbox.stub(fixtures.amqpChannel, 'assertQueue').rejects(fixtures.testingError);
 
     return testConnector.checkQueue(Object.assign({}, fixtures.messageOnQueueOnly, {
-      ch: fixtures.amqpChannel,
+      ch: fixtures.amqpChannel
     }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_CHECK_QUEUE_ERROR',
+          name:  'MQ_CHECK_QUEUE_ERROR'
         });
         expect(response).to.have.property('severity', 'WARNING');
         return Promise.resolve();
@@ -47,13 +49,13 @@ describe('CheckQueue', () => {
     sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
     return testConnector.checkQueue(Object.assign({}, fixtures.messageOnTopic, {
-      ch: fixtures.amqpChannel,
+      ch: fixtures.amqpChannel
     }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_CHECK_QUEUE_ERROR',
+          name:  'MQ_CHECK_QUEUE_ERROR'
         });
         expect(response).to.have.property('severity', 'FATAL');
 
@@ -65,7 +67,7 @@ describe('CheckQueue', () => {
     const assertQueueSpy = sandbox.spy(fixtures.amqpChannel, 'assertQueue');
 
     testConnector.checkQueue(Object.assign({}, fixtures.messageOnQueueOnly, {
-      ch: fixtures.amqpChannel,
+      ch: fixtures.amqpChannel
     }))
       .should.be.fulfilled
       .then((response) => {
@@ -73,21 +75,23 @@ describe('CheckQueue', () => {
         expect(assertQueueSpy.callCount).to.be.equal(1);
         expect(assertQueueSpy.getCall(0).args).to.be.eql([
           fixtures.messageOnQueueOnly.queue,
-          testConnector.subscribeQueueOptions,
+          testConnector.subscribeQueueOptions
         ]);
         return Promise.resolve();
       });
   });
 
-  it('Should resolve with a generated queue if none provided',
+  it(
+    'Should resolve with a generated queue if none provided',
     () => testConnector.checkQueue({
       exchange: fixtures.messageOnTopic.exchange,
       topic:    fixtures.messageOnTopic.topic,
-      ch:       fixtures.amqpChannel,
+      ch:       fixtures.amqpChannel
     })
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('queue', fixtures.generatedQueue);
         return Promise.resolve();
-      }));
+      })
+  );
 });
