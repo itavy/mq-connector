@@ -80,4 +80,23 @@ describe('SendMessage', () => {
         return Promise.resolve();
       });
   });
+
+  it('Should use default options if none provided', () => {
+    const sendSpy = sandbox.spy(testConnector, 'sendMessageToMQ');
+
+    return testConnector.sendMessage(fixtures.publishMessageDefault)
+      .should.be.fulfilled
+      .then(() => {
+        expect(sendSpy.callCount).to.be.equal(1);
+        expect(sendSpy.getCall(0).args[0]).to.be.eql({
+          exchange: '',
+          queue:    fixtures.publishMessageDefault.queue,
+          message:  fixtures.publishMessageDefault.message,
+          options:  {},
+          ch:       testConnector.publishChannel,
+        });
+
+        return Promise.resolve();
+      });
+  });
 });

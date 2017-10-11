@@ -73,6 +73,11 @@ const publishMessage = {
   options:  {},
 };
 
+const publishMessageDefault = {
+  queue:   'testQueue',
+  message: Buffer.from('testmessage'),
+};
+
 const createChannelOptions = {
   publish: {
     name:  'publishChannel',
@@ -125,4 +130,5 @@ module.exports = {
   subscribeQueueRequest,
   subscribeTopicRequest,
   publishMessage,
+  publishMessageDefault,
 };
