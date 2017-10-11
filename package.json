@@ -7,8 +7,7 @@
     "test": "./node_modules/.bin/mocha",
     "test:e2e": "npm run test:e2e:rabbitmq",
     "test:e2e:rabbitmq": "./node_modules/.bin/tap -b -t 5 ./test/e2e/RabbitMQ/*.js",
-    "coverage": "npm run test:check-style && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
-    "coverage:check": "./node_modules/.bin/istanbul check-coverage",
+    "test:coverage": "./node_modules/.bin/nyc npm test",
     "test:check-style": "./node_modules/.bin/eslint index.js \"lib/**/*.js\" \"test/**/*.js\"",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "pretest": "npm run test:check-style"
@@ -29,7 +28,7 @@
   "author": "Octavian Ionescu <itavyg@gmail.com> (https://github.com/itavy)",
   "license": "MIT",
   "devDependencies": {
-    "@itavy/test-utilities": "^2.1.0",
+    "@itavy/test-utilities": "~4.0.0",
     "amqplib": "^0.5.1",
     "eslint": "^4.8.0",
     "eslint-config-airbnb": "^16.0.0",
@@ -40,12 +39,51 @@
     "jaguarjs-jsdoc": "^1.0.2",
     "jsdoc": "^3.4.3",
     "jsdoc-to-markdown": "^3.0.0",
-    "pre-commit": "^1.2.2"
+    "mocha": "~4.0.1",
+    "nyc": "~11.2.1",
+    "pre-commit": "^1.2.2",
+    "tap": "~10.7.2"
   },
   "dependencies": {
     "@itavy/ierror": "^1.1.1",
     "debug": "^2.6.8",
     "p-event": "^1.3.0",
     "semver": "^5.3.0"
+  },
+  "nyc": {
+    "all": true,
+    "color:": true,
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 95,
+    "statements": 95,
+    "functions": 95,
+    "branches": 95,
+    "include": [
+      "lib/**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "watermarks": {
+      "check-coverage": true,
+      "statements": [
+        50,
+        95
+      ],
+      "lines": [
+        50,
+        95
+      ],
+      "functions": [
+        50,
+        95
+      ],
+      "branches": [
+        50,
+        95
+      ]
+    }
   }
 }

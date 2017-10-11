@@ -1,22 +1,21 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect, getSinonSandbox } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
 
-const expect = testUtilities.getExpect();
 
 describe('SendMessageToMQ', () => {
   let sandbox;
   let testConnector;
 
   beforeEach((done) => {
-    sandbox = testUtilities.getSinonSandbox();
+    sandbox = getSinonSandbox();
     testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
       {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib
+        amqplib: fixtures.amqpLib,
       }
     ));
     return done();
@@ -33,8 +32,8 @@ describe('SendMessageToMQ', () => {
 
     return testConnector.sendMessageToMQ(Object.assign({}, fixtures.publishMessage, {
       ch: {
-        publish: publishStub
-      }
+        publish: publishStub,
+      },
     }))
       .should.be.rejected
       .then((response) => {
@@ -44,7 +43,7 @@ describe('SendMessageToMQ', () => {
           fixtures.publishMessage.exchange,
           fixtures.publishMessage.queue,
           fixtures.publishMessage.message,
-          fixtures.publishMessage.options
+          fixtures.publishMessage.options,
         ]);
 
         return Promise.resolve();
@@ -55,8 +54,8 @@ describe('SendMessageToMQ', () => {
     'Should resolve if message is accepted for delivery',
     () => testConnector.sendMessageToMQ(Object.assign({}, fixtures.publishMessage, {
       ch: {
-        publish: () => true
-      }
+        publish: () => true,
+      },
     }))
       .should.be.fulfilled
       .then(() => Promise.resolve())

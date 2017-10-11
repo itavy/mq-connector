@@ -1,10 +1,9 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
 
-const expect = testUtilities.getExpect();
 
 describe('ParsePublishOptions', () => {
   let testConnector;
@@ -14,7 +13,7 @@ describe('ParsePublishOptions', () => {
       {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib
+        amqplib: fixtures.amqpLib,
       }
     ));
     done();
@@ -38,7 +37,7 @@ describe('ParsePublishOptions', () => {
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.be.eql({
-          expiration: `${ttlExpire}000`
+          expiration: `${ttlExpire}000`,
         });
         return Promise.resolve();
       });

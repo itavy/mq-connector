@@ -4,7 +4,7 @@ const connLib = require('../../../lib/v6x');
 const fixtures = require('./Fixtures/Fixtures');
 const amqplib = require('amqplib');
 
-const tap = require('@itavy/test-utilities').getTap();
+const tap = require('tap');
 
 tap.test('Receive message on a provided queue', (t) => {
   t.plan(4);
@@ -17,12 +17,12 @@ tap.test('Receive message on a provided queue', (t) => {
   });
 
   testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-    mqURI: fixtures.mqUri
+    mqURI: fixtures.mqUri,
   });
 
   testConnector.subscribe({
     consumer: ({
-      message, exchange, queue, topic
+      message, exchange, queue, topic,
     }) => {
       t.same(message, fixtures.testMessages.topicQueue);
       t.equal(exchange, '');
@@ -30,7 +30,7 @@ tap.test('Receive message on a provided queue', (t) => {
       t.equal(topic, fixtures.workQueues.receiveQueue);
       return Promise.resolve();
     },
-    queue: fixtures.workQueues.receiveQueue
+    queue: fixtures.workQueues.receiveQueue,
   })
     .then(() => amqplib.connect(fixtures.mqUri)
       .then((conn) => {

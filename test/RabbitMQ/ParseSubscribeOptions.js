@@ -1,22 +1,21 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect, getSinonSandbox } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
 
-const expect = testUtilities.getExpect();
 
 describe('ParseSubscribeOptions', () => {
   let sandbox;
   let testConnector;
 
   beforeEach((done) => {
-    sandbox = testUtilities.getSinonSandbox();
+    sandbox = getSinonSandbox();
     testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
       {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib
+        amqplib: fixtures.amqpLib,
       }
     ));
     return done();
@@ -55,13 +54,13 @@ describe('ParseSubscribeOptions', () => {
     sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
     return testConnector.parseSubscribeOptions(Object.assign({}, fixtures.messageOnTopic, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_PARSE_SUBSCRIBE_OPTIONS_ERROR'
+          name:  'MQ_PARSE_SUBSCRIBE_OPTIONS_ERROR',
         });
         expect(response).to.have.property('severity', 'FATAL');
         return Promise.resolve();
@@ -71,7 +70,7 @@ describe('ParseSubscribeOptions', () => {
   it(
     'Should resolve with provided queue and options',
     () => testConnector.parseSubscribeOptions(Object.assign({}, fixtures.subscribeQueueRequest, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.fulfilled
       .then((response) => {
@@ -85,7 +84,7 @@ describe('ParseSubscribeOptions', () => {
   it(
     'Should resolve with generated queue and default options',
     () => testConnector.parseSubscribeOptions(Object.assign({}, fixtures.subscribeTopicRequest, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.fulfilled
       .then((response) => {

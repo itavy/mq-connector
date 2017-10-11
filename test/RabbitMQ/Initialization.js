@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('@itavy/test-utilities').getExpect();
+const { expect } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
 

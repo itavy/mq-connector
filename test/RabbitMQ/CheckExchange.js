@@ -1,22 +1,20 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect, getSinonSandbox } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
-
-const expect = testUtilities.getExpect();
 
 describe('CheckExchange', () => {
   let sandbox;
   let testConnector;
 
   beforeEach((done) => {
-    sandbox = testUtilities.getSinonSandbox();
+    sandbox = getSinonSandbox();
     testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
       {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib
+        amqplib: fixtures.amqpLib,
       }
     ));
     return done();
@@ -33,7 +31,7 @@ describe('CheckExchange', () => {
 
     return testConnector.checkExchange({
       channel:  fixtures.amqpChannel,
-      exchange: fixtures.messageOnTopic.exchange
+      exchange: fixtures.messageOnTopic.exchange,
     })
       .should.be.fulfilled
       .then(() => {
@@ -49,13 +47,13 @@ describe('CheckExchange', () => {
 
     return testConnector.checkExchange({
       channel:  fixtures.amqpChannel,
-      exchange: fixtures.messageOnTopic.exchange
+      exchange: fixtures.messageOnTopic.exchange,
     })
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_CHECK_EXCHANGE_ERROR'
+          name:  'MQ_CHECK_EXCHANGE_ERROR',
         });
         expect(response).to.have.property('severity', 'FATAL');
 

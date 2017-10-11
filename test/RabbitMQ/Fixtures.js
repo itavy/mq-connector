@@ -1,10 +1,10 @@
 'use strict';
 
-const expect = require('@itavy/test-utilities').getExpect();
+const { expect } = require('@itavy/test-utilities');
 const crypto = require('crypto');
 
 const rabbitmqConnOptions = {
-  mqURI: 'amqp://testuser:testpwd@slocalhost/vhost?heartbeat=1'
+  mqURI: 'amqp://testuser:testpwd@slocalhost/vhost?heartbeat=1',
 };
 
 const consumerTag = crypto.randomBytes(32).toString('hex');
@@ -16,21 +16,21 @@ const amqpChannel = {
   checkExchange: () => Promise.resolve(),
   bindQueue:     () => Promise.resolve(),
   assertQueue:   (queue = generatedQueue) => Promise.resolve({
-    queue
+    queue,
   }),
   consume:         () => Promise.resolve({ consumerTag }),
   prefetch:        () => null,
   close:           () => Promise.resolve(),
-  waitForConfirms: () => Promise.resolve()
+  waitForConfirms: () => Promise.resolve(),
 };
 
 const amqpConnection = {
   createConfirmChannel: () => Promise.resolve(amqpChannel),
-  close:                () => Promise.resolve()
+  close:                () => Promise.resolve(),
 };
 
 const amqpLib = {
-  connect: () => Promise.resolve(amqpConnection)
+  connect: () => Promise.resolve(amqpConnection),
 };
 
 const testingError = Error('testing error');
@@ -38,64 +38,64 @@ const testingError = Error('testing error');
 const messageOnQueueOnly = {
   queue:    'testingQueue',
   exchange: '',
-  topic:    ''
+  topic:    '',
 };
 
 const messageOnTopic = {
   queue:    'testingQueue',
   exchange: 'testingExchange',
-  topic:    'testing.topic.mq'
+  topic:    'testing.topic.mq',
 };
 
 const badMessageOnTopic = {
-  exchange: 'testingExchange'
+  exchange: 'testingExchange',
 };
 
 
 const subscribeQueueRequest = {
   queue:   'testingQueue',
   options: {
-    prefetch: 13
+    prefetch: 13,
   },
-  consumer: () => null
+  consumer: () => null,
 };
 
 const subscribeTopicRequest = {
   exchange: 'testingExchange',
   topic:    'testing.topic.mq',
-  consumer: () => null
+  consumer: () => null,
 };
 
 const publishMessage = {
   queue:    'testQueue',
   exchange: '',
   message:  Buffer.from('testmessage'),
-  options:  {}
+  options:  {},
 };
 
 const createChannelOptions = {
   publish: {
     name:  'publishChannel',
     flag:  'creatingPC',
-    event: 'createdPublishChannel'
+    event: 'createdPublishChannel',
   },
   subscribe: {
     name:  'subscribeChannel',
     flag:  'creatingSC',
-    event: 'createdSubscribeChannel'
-  }
+    event: 'createdSubscribeChannel',
+  },
 };
 const closeChannelOptions = {
   publish: {
     name:  'publishChannel',
     flag:  'closingPC',
-    event: 'closePublish'
+    event: 'closePublish',
   },
   subscribe: {
     name:  'subscribeChannel',
     flag:  'closingSC',
-    event: 'closeSubscribe'
-  }
+    event: 'closeSubscribe',
+  },
 };
 
 /**
@@ -124,5 +124,5 @@ module.exports = {
   closeChannelOptions,
   subscribeQueueRequest,
   subscribeTopicRequest,
-  publishMessage
+  publishMessage,
 };

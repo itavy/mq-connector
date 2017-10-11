@@ -1,22 +1,21 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect, getSinonSandbox } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
 
-const expect = testUtilities.getExpect();
 
 describe('GetPublishChannel', () => {
   let sandbox;
   let testConnector;
 
   beforeEach((done) => {
-    sandbox = testUtilities.getSinonSandbox();
+    sandbox = getSinonSandbox();
     testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
       {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib
+        amqplib: fixtures.amqpLib,
       }
     ));
     done();
@@ -36,7 +35,7 @@ describe('GetPublishChannel', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_PUBLISH_CHANNEL_ERROR'
+          name:  'MQ_PUBLISH_CHANNEL_ERROR',
         });
 
         return Promise.resolve();
@@ -52,7 +51,7 @@ describe('GetPublishChannel', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_PUBLISH_CHANNEL_ERROR'
+          name:  'MQ_PUBLISH_CHANNEL_ERROR',
         });
 
         expect(createChannelStub.callCount).to.be.equal(1);

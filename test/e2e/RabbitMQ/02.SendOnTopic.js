@@ -4,7 +4,7 @@ const connLib = require('../../../lib/v6x');
 const fixtures = require('./Fixtures/Fixtures');
 const amqplib = require('amqplib');
 
-const tap = require('@itavy/test-utilities').getTap();
+const tap = require('tap');
 
 tap.test('Send message on topic', (t) => {
   t.plan(3);
@@ -17,7 +17,7 @@ tap.test('Send message on topic', (t) => {
   });
 
   testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-    mqURI: fixtures.mqUri
+    mqURI: fixtures.mqUri,
   });
 
   amqplib.connect(fixtures.mqUri)
@@ -33,7 +33,7 @@ tap.test('Send message on topic', (t) => {
     .then(() => testConnector.sendMessage({
       message:  fixtures.testMessages.topicQueue,
       queue:    fixtures.workQueues.topicQueue.routingKey,
-      exchange: fixtures.workQueues.topicQueue.exchange
+      exchange: fixtures.workQueues.topicQueue.exchange,
     }))
     .catch(err => t.bailout(err));
 });

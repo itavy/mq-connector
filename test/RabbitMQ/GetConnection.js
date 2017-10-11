@@ -1,22 +1,21 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect, getSinonSandbox } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
 
-const expect = testUtilities.getExpect();
 
 describe('GetConnection', () => {
   let sandbox;
   let testConnector;
 
   beforeEach((done) => {
-    sandbox = testUtilities.getSinonSandbox();
+    sandbox = getSinonSandbox();
     testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
       {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib
+        amqplib: fixtures.amqpLib,
       }
     ));
     done();
@@ -38,7 +37,7 @@ describe('GetConnection', () => {
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_CONNECT_ERROR'
+          name:  'MQ_CONNECT_ERROR',
         });
         expect(connectFail.callCount).to.be.equal(1);
         expect(connectFail.getCall(0).args[0]).to.be.equal(fixtures.rabbitmqConnOptions.mqURI);

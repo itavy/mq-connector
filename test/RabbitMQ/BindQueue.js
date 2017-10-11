@@ -1,22 +1,20 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect, getSinonSandbox } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
-
-const expect = testUtilities.getExpect();
 
 describe('BindQueue', () => {
   let sandbox;
   let testConnector;
 
   beforeEach((done) => {
-    sandbox = testUtilities.getSinonSandbox();
+    sandbox = getSinonSandbox();
     testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
       {},
       fixtures.rabbitmqConnOptions,
       {
-        amqplib: fixtures.amqpLib
+        amqplib: fixtures.amqpLib,
       }
     ));
     return done();
@@ -32,13 +30,13 @@ describe('BindQueue', () => {
     sandbox.stub(fixtures.amqpChannel, 'bindQueue').rejects(fixtures.testingError);
 
     return testConnector.bindQueue(Object.assign({}, fixtures.messageOnTopic, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_BIND_QUEUE_ERROR'
+          name:  'MQ_BIND_QUEUE_ERROR',
         });
         return Promise.resolve();
       });
@@ -48,7 +46,7 @@ describe('BindQueue', () => {
     const chBindQueue = sandbox.spy(fixtures.amqpChannel, 'bindQueue');
 
     return testConnector.bindQueue(Object.assign({}, fixtures.messageOnTopic, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.fulfilled
       .then((response) => {
@@ -58,7 +56,7 @@ describe('BindQueue', () => {
         expect(chBindQueue.getCall(0).args).to.be.eql([
           fixtures.messageOnTopic.queue,
           fixtures.messageOnTopic.exchange,
-          fixtures.messageOnTopic.topic
+          fixtures.messageOnTopic.topic,
         ]);
         return Promise.resolve();
       });

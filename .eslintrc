@@ -11,7 +11,13 @@
     "mocha": true
   },
   "rules": {
-    "comma-dangle": ["error", { "functions": "only-multiline"}],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "only-multiline"
+    }],
     "key-spacing": [2, {
       "align": "value"
     }],

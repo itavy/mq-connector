@@ -1,17 +1,16 @@
 'use strict';
 
-const testUtilities = require('@itavy/test-utilities');
+const { expect, getSinonSandbox } = require('@itavy/test-utilities');
 const connLib = require('../../lib/v6x');
 const fixtures = require('./Fixtures');
 
-const expect = testUtilities.getExpect();
 
 describe('SubscribeToQueue', () => {
   let sandbox;
   let testConnector;
 
   beforeEach((done) => {
-    sandbox = testUtilities.getSinonSandbox();
+    sandbox = getSinonSandbox();
     testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
       {},
       fixtures.rabbitmqConnOptions,
@@ -31,17 +30,17 @@ describe('SubscribeToQueue', () => {
       .throws(fixtures.testingError);
 
     return testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
           error: response,
-          name:  'MQ_SUBSCRIBE_ERROR'
+          name:  'MQ_SUBSCRIBE_ERROR',
         });
         expect(prefetchStub.callCount).to.be.equal(1);
         expect(prefetchStub.getCall(0).args).to.be.eql([
-          fixtures.subscribeQueueRequest.options.prefetch
+          fixtures.subscribeQueueRequest.options.prefetch,
         ]);
 
         return Promise.resolve();
@@ -52,7 +51,7 @@ describe('SubscribeToQueue', () => {
     const subscribeSpy = sandbox.spy(fixtures.amqpChannel, 'consume');
 
     return testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.fulfilled
       .then(() => {
@@ -65,7 +64,7 @@ describe('SubscribeToQueue', () => {
 
   it('Should return queue where it subscribed', () =>
     testConnector.subscribeToQueue(Object.assign({}, fixtures.subscribeQueueRequest, {
-      ch: fixtures.amqpChannel
+      ch: fixtures.amqpChannel,
     }))
       .should.be.fulfilled
       .then((response) => {
