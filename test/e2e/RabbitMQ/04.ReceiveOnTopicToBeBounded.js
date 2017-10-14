@@ -1,6 +1,6 @@
 'use strict';
 
-const connLib = require('../../../lib/v6x');
+const connLib = require('../../../');
 const fixtures = require('./Fixtures/Fixtures');
 const amqplib = require('amqplib');
 

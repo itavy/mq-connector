@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect, getSinonSandbox } = require('@itavy/test-utilities');
-const connLib = require('../../lib/v6x');
+const connLib = require('../../');
 const fixtures = require('./Fixtures');
 
 describe('CheckQueue', () => {

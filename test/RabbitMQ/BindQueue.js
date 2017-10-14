@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect, getSinonSandbox } = require('@itavy/test-utilities');
-const connLib = require('../../lib/v6x');
+const connLib = require('../../');
 const fixtures = require('./Fixtures');
 
 describe('BindQueue', () => {
@@ -42,15 +42,15 @@ describe('BindQueue', () => {
       });
   });
 
-  it('Should resolve with provided queue binded', () => {
+  it('Should resolve on success binding', () => {
     const chBindQueue = sandbox.spy(fixtures.amqpChannel, 'bindQueue');
 
     return testConnector.bindQueue(Object.assign({}, fixtures.messageOnTopic, {
       ch: fixtures.amqpChannel,
     }))
       .should.be.fulfilled
-      .then((response) => {
-        expect(response).to.be.eql({ queue: fixtures.messageOnQueueOnly.queue });
+      .then(() => {
+        // expect(response).to.be.eql({ queue: fixtures.messageOnQueueOnly.queue });
 
         expect(chBindQueue.callCount).to.be.equal(1);
         expect(chBindQueue.getCall(0).args).to.be.eql([

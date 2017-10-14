@@ -8,12 +8,17 @@
     "test:e2e": "npm run test:e2e:rabbitmq",
     "test:e2e:rabbitmq": "./node_modules/.bin/tap -b -t 5 ./test/e2e/RabbitMQ/*.js",
     "test:coverage": "./node_modules/.bin/nyc npm test",
-    "test:check-style": "./node_modules/.bin/eslint index.js \"lib/**/*.js\" \"test/**/*.js\"",
+    "test:check-style": "./node_modules/.bin/eslint index.js \"lib/latest/*.js\" \"test/**/*.js\"",
+    "build": "npm run build:v6x",
+    "build:add": "git add lib",
+    "build:v6x": "BABEL_ENV=v6x ./node_modules/.bin/babel lib/latest -d lib/v6x",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "pretest": "npm run test:check-style"
   },
   "pre-commit": [
-    "test"
+    "test",
+    "build",
+    "build:add"
   ],
   "repository": {
     "type": "git",
@@ -29,7 +34,9 @@
   "license": "MIT",
   "devDependencies": {
     "@itavy/test-utilities": "~4.0.0",
-    "amqplib": "^0.5.1",
+    "babel-cli": "~6.26.0",
+    "babel-plugin-transform-object-rest-spread": "~6.26.0",
+    "babel-preset-env": "~1.6.0",
     "eslint": "^4.8.0",
     "eslint-config-airbnb": "^16.0.0",
     "eslint-plugin-import": "^2.7.0",
@@ -46,6 +53,7 @@
   },
   "dependencies": {
     "@itavy/ierror": "^1.1.1",
+    "amqplib": "~0.5.1",
     "debug": "^2.6.8",
     "p-event": "^1.3.0",
     "semver": "^5.3.0"
@@ -60,7 +68,7 @@
     "functions": 95,
     "branches": 95,
     "include": [
-      "lib/**/*.js"
+      "lib/latest/*.js"
     ],
     "reporter": [
       "lcov",
