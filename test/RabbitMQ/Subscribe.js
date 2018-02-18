@@ -11,13 +11,10 @@ describe('Subscribe', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
-      {},
-      fixtures.rabbitmqConnOptions,
-      {
-        amqplib: fixtures.amqpLib,
-      }
-    ));
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
+      ...fixtures.rabbitmqConnOptions,
+      amqplib: fixtures.amqpLib,
+    });
     return done();
   });
 
@@ -67,7 +64,7 @@ describe('Subscribe', () => {
       });
   });
 
-  it('Should fail with fatal error if provided', () => {
+  it('Should fail for invalid exchange', () => {
     sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
     return testConnector.subscribe(fixtures.subscribeTopicRequest)
@@ -77,7 +74,6 @@ describe('Subscribe', () => {
           error: response,
           name:  'MQ_SUBSCRIBE_ERROR',
         });
-        expect(response).to.have.property('severity', 'FATAL');
 
         return Promise.resolve();
       });

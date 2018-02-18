@@ -9,7 +9,6 @@ describe('Initializaton', () => {
     const testConn = connLib.getConnector(connLib.types.RABBIT_MQ, fixtures.rabbitmqConnOptions);
     expect(testConn).to.have.property('debug');
     expect(testConn).to.have.property('sourceIdentifier');
-    expect(testConn).to.have.property('rejectWithError');
     expect(testConn).to.have.property('connection', null);
     expect(testConn).to.have.property('publishChannel', null);
     expect(testConn).to.have.property('subscribeChannel', null);

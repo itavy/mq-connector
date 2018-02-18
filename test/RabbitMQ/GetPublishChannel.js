@@ -11,13 +11,10 @@ describe('GetPublishChannel', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
-      {},
-      fixtures.rabbitmqConnOptions,
-      {
-        amqplib: fixtures.amqpLib,
-      }
-    ));
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
+      ...fixtures.rabbitmqConnOptions,
+      amqplib: fixtures.amqpLib,
+    });
     done();
   });
 
@@ -30,13 +27,10 @@ describe('GetPublishChannel', () => {
   it('Should fail for publish not allowed', () => {
     testConnector.connectionFlags.publish = false;
 
-    return testConnector.getPublishChannel({})
+    return testConnector.getPublishChannel()
       .should.be.rejected
       .then((response) => {
-        fixtures.testExpectedError({
-          error: response,
-          name:  'MQ_PUBLISH_CHANNEL_ERROR',
-        });
+        expect(response).to.have.property('name', 'MQ_PUBLISH_CHANNEL_ERROR');
 
         return Promise.resolve();
       });
@@ -49,10 +43,7 @@ describe('GetPublishChannel', () => {
     return testConnector.getPublishChannel({})
       .should.be.rejected
       .then((response) => {
-        fixtures.testExpectedError({
-          error: response,
-          name:  'MQ_PUBLISH_CHANNEL_ERROR',
-        });
+        expect(response).to.be.eql(fixtures.testingError);
 
         expect(createChannelStub.callCount).to.be.equal(1);
         expect(createChannelStub.getCall(0).args[0])

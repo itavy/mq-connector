@@ -10,13 +10,10 @@ describe('CheckExchange', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
-      {},
-      fixtures.rabbitmqConnOptions,
-      {
-        amqplib: fixtures.amqpLib,
-      }
-    ));
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
+      ...fixtures.rabbitmqConnOptions,
+      amqplib: fixtures.amqpLib,
+    });
     return done();
   });
 
@@ -51,11 +48,7 @@ describe('CheckExchange', () => {
     })
       .should.be.rejected
       .then((response) => {
-        fixtures.testExpectedError({
-          error: response,
-          name:  'MQ_CHECK_EXCHANGE_ERROR',
-        });
-        expect(response).to.have.property('severity', 'FATAL');
+        expect(response).to.be.eql(fixtures.testingError);
 
         return Promise.resolve();
       });

@@ -10,13 +10,10 @@ describe('BindQueue', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
-      {},
-      fixtures.rabbitmqConnOptions,
-      {
-        amqplib: fixtures.amqpLib,
-      }
-    ));
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
+      ...fixtures.rabbitmqConnOptions,
+      amqplib: fixtures.amqpLib,
+    });
     return done();
   });
 
@@ -29,9 +26,10 @@ describe('BindQueue', () => {
   it('Should fail with expected error', () => {
     sandbox.stub(fixtures.amqpChannel, 'bindQueue').rejects(fixtures.testingError);
 
-    return testConnector.bindQueue(Object.assign({}, fixtures.messageOnTopic, {
+    return testConnector.bindQueue({
+      ...fixtures.messageOnTopic,
       ch: fixtures.amqpChannel,
-    }))
+    })
       .should.be.rejected
       .then((response) => {
         fixtures.testExpectedError({
@@ -45,9 +43,10 @@ describe('BindQueue', () => {
   it('Should resolve on success binding', () => {
     const chBindQueue = sandbox.spy(fixtures.amqpChannel, 'bindQueue');
 
-    return testConnector.bindQueue(Object.assign({}, fixtures.messageOnTopic, {
+    return testConnector.bindQueue({
+      ...fixtures.messageOnTopic,
       ch: fixtures.amqpChannel,
-    }))
+    })
       .should.be.fulfilled
       .then(() => {
         // expect(response).to.be.eql({ queue: fixtures.messageOnQueueOnly.queue });
