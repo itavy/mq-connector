@@ -67,4 +67,15 @@ describe('SubscribeToQueue', () => {
         expect(response).to.have.property('queue');
         return Promise.resolve();
       }));
+
+  it('Should return consumer tag for subscribed queue', () =>
+    testConnector.subscribeToQueue({
+      ...fixtures.subscribeQueueRequest,
+      ch: fixtures.amqpChannel,
+    })
+      .should.be.fulfilled
+      .then((response) => {
+        expect(response).to.have.property('consumerTag');
+        return Promise.resolve();
+      }));
 });
