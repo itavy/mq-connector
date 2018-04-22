@@ -30,7 +30,10 @@ tap.test('Receive message on a provided queue', (t) => {
       t.equal(topic, fixtures.workQueues.receiveQueue);
       return Promise.resolve();
     },
-    queue: fixtures.workQueues.receiveQueue,
+    queue:   fixtures.workQueues.receiveQueue,
+    options: {
+      durable: true,
+    },
   })
     .then(() => amqplib.connect(fixtures.mqUri)
       .then((conn) => {

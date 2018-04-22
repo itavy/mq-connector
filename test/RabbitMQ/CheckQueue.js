@@ -66,7 +66,7 @@ describe('CheckQueue', () => {
         expect(assertQueueSpy.getCall(0).args).to.be.eql([
           fixtures.messageOnQueueOnly.queue,
           {
-            exclusive:  true,
+            exclusive:  false,
             durable:    false,
             autoDelete: true,
           },

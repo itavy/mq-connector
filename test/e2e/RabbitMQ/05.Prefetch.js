@@ -40,6 +40,7 @@ tap.test('Send message on topic', (t) => {
     }),
     options: {
       prefetch: 1,
+      durable:  true,
     },
     queue:    fixtures.workQueues.prefetch.queue,
     exchange: fixtures.workQueues.prefetch.exchange,
@@ -57,6 +58,7 @@ tap.test('Send message on topic', (t) => {
       },
       options: {
         prefetch: 1,
+        durable:  true,
       },
       queue:    fixtures.workQueues.prefetch.queue,
       exchange: fixtures.workQueues.prefetch.exchange,
