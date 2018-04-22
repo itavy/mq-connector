@@ -11,10 +11,13 @@ describe('GetPublishChannel', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-      ...fixtures.rabbitmqConnOptions,
-      amqplib: fixtures.amqpLib,
-    });
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
+      fixtures.rabbitmqConnOptions,
+      {
+        amqplib: fixtures.amqpLib,
+      },
+    ));
     done();
   });
 

@@ -1,9 +1,9 @@
-# mq-Structure
+# MQ-Connector
 
 ## Instalation
 
 ```
-npm install @itavy/mq-structure
+npm install @itavy/mq-connector
 ```
 
 ## API
@@ -147,4 +147,4 @@ Instantiate a MQ connector
 
 ## LICENSE
 
-[MIT](https://github.com/itavy/mq-structure/blob/master/LICENSE.md)
+[MIT](https://github.com/itavy/mq-connector/blob/master/LICENSE.md)
