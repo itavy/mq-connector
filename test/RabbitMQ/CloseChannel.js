@@ -16,7 +16,7 @@ describe('CloseChannel', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     done();
   });

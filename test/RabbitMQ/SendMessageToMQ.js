@@ -16,7 +16,7 @@ describe('SendMessageToMQ', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     return done();
   });
@@ -37,7 +37,7 @@ describe('SendMessageToMQ', () => {
         ch: {
           publish: publishStub,
         },
-      },
+      }
     ))
       .should.be.rejected
       .then((response) => {
@@ -63,7 +63,7 @@ describe('SendMessageToMQ', () => {
         ch: {
           publish: () => true,
         },
-      },
+      }
     ))
       .should.be.fulfilled
       .then(() => Promise.resolve())

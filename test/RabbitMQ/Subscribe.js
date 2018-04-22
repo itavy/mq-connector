@@ -16,7 +16,7 @@ describe('Subscribe', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     return done();
   });

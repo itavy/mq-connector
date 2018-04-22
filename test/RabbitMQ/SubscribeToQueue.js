@@ -16,7 +16,7 @@ describe('SubscribeToQueue', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     return done();
   });
@@ -36,7 +36,7 @@ describe('SubscribeToQueue', () => {
       fixtures.subscribeQueueRequest,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.rejected
       .then((response) => {
@@ -55,7 +55,7 @@ describe('SubscribeToQueue', () => {
       fixtures.subscribeQueueRequest,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.fulfilled
       .then(() => {
@@ -72,7 +72,7 @@ describe('SubscribeToQueue', () => {
       fixtures.subscribeQueueRequest,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.fulfilled
       .then((response) => {
@@ -86,7 +86,7 @@ describe('SubscribeToQueue', () => {
       fixtures.subscribeQueueRequest,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.fulfilled
       .then((response) => {

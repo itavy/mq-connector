@@ -14,7 +14,7 @@ describe('ParsePublishOptions', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     done();
   });

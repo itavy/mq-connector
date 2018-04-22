@@ -15,7 +15,7 @@ describe('CheckQueue', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     return done();
   });
@@ -34,7 +34,7 @@ describe('CheckQueue', () => {
       fixtures.messageOnQueueOnly,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.rejected
       .then((response) => {
@@ -51,7 +51,7 @@ describe('CheckQueue', () => {
       fixtures.messageOnTopic,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.rejected
       .then((response) => {
@@ -69,7 +69,7 @@ describe('CheckQueue', () => {
       fixtures.messageOnQueueOnly,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.fulfilled
       .then((response) => {

@@ -15,7 +15,7 @@ describe('CheckExchange', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     return done();
   });

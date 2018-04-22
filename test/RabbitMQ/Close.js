@@ -16,7 +16,7 @@ describe('Close', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     done();
   });

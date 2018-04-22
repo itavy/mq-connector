@@ -16,7 +16,7 @@ describe('GetPublishChannel', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     done();
   });

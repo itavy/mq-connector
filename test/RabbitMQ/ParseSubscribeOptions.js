@@ -16,7 +16,7 @@ describe('ParseSubscribeOptions', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     return done();
   });
@@ -30,8 +30,9 @@ describe('ParseSubscribeOptions', () => {
   it('Should reject for missing required parameters', () => testConnector.parseSubscribeOptions({})
     .should.be.rejected
     .then((response) => {
-      expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
-
+      // expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
+      expect(response).to.have.property('name');
+      expect(response.name.startsWith('AssertionError')).to.be.equal(true);
       return Promise.resolve();
     }));
 
@@ -39,7 +40,9 @@ describe('ParseSubscribeOptions', () => {
     testConnector.parseSubscribeOptions(fixtures.badMessageOnTopic)
       .should.be.rejected
       .then((response) => {
-        expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
+        // expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
+        expect(response).to.have.property('name');
+        expect(response.name.startsWith('AssertionError')).to.be.equal(true);
 
         return Promise.resolve();
       }));
@@ -52,7 +55,7 @@ describe('ParseSubscribeOptions', () => {
       fixtures.messageOnTopic,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.rejected
       .then((response) => {
@@ -69,7 +72,7 @@ describe('ParseSubscribeOptions', () => {
       fixtures.subscribeQueueRequest,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.fulfilled
       .then((response) => {
@@ -87,7 +90,7 @@ describe('ParseSubscribeOptions', () => {
       fixtures.subscribeTopicRequest,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.fulfilled
       .then((response) => {

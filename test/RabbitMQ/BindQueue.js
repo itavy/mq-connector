@@ -15,7 +15,7 @@ describe('BindQueue', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     return done();
   });
@@ -34,7 +34,7 @@ describe('BindQueue', () => {
       fixtures.messageOnTopic,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.rejected
       .then((response) => {
@@ -54,7 +54,7 @@ describe('BindQueue', () => {
       fixtures.messageOnTopic,
       {
         ch: fixtures.amqpChannel,
-      },
+      }
     ))
       .should.be.fulfilled
       .then(() => {

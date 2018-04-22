@@ -16,7 +16,7 @@ describe('GetConnection', () => {
       fixtures.rabbitmqConnOptions,
       {
         amqplib: fixtures.amqpLib,
-      },
+      }
     ));
     done();
   });
