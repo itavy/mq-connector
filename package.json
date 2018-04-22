@@ -1,6 +1,6 @@
 {
   "name": "@itavy/mq-connector",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Interface for mq connectivity for mq-router",
   "main": "index.js",
   "scripts": {
