@@ -1,9 +1,9 @@
 coverage/
 docs/
+examples/
+test/
 .eslintignore
 .eslintrc
-examples/
 .istanbul.yml
 jsdoc.json
 README.hbs
-test/

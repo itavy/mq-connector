@@ -4,7 +4,7 @@
  },
  "source": {
   "include": [
-   "./lib/"
+   "./lib/latest/"
   ],
   "exclude": [],
   "includePattern": ".+\\.js(doc)?$",
@@ -33,8 +33,8 @@
   "private": false,
   "lenient": false,
   "destination": "./docs",
-  "template": "./node_modules/jaguarjs-jsdoc",
-  "sourceRoot": "git/master/lib",
-  "repo": "git"
+  "template"      : "./node_modules/jaguarjs-jsdoc",
+  "sourceRoot"    : "https://github.com/itavy/mq-connector/master/lib/latest",
+  "repo"          : "https://github.com/itavy/mq-connector"
  }
 }

@@ -5,29 +5,94 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha",
-    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
-    "coverage:check": "./node_modules/.bin/istanbul check-coverage",
-    "test:check-style": "./node_modules/.bin/eslint index.js \"lib/**/*.js\" \"test/**/*.js\"",
+    "test:e2e": "npm run test:e2e:rabbitmq",
+    "test:e2e:rabbitmq": "./node_modules/.bin/tap -b -t 5 ./test/e2e/RabbitMQ/*.js",
+    "test:coverage": "./node_modules/.bin/nyc npm test",
+    "test:check-style": "./node_modules/.bin/eslint index.js \"lib/latest/*.js\" \"test/**/*.js\"",
+    "build": "npm run build:v6x",
+    "build:add": "git add lib",
+    "build:v6x": "BABEL_ENV=v6x ./node_modules/.bin/babel lib/latest -d lib/v6x",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
+    "docs-md": "./node_modules/.bin/jsdoc2md --template README.hbs lib/latest/*.js > README.md",
     "pretest": "npm run test:check-style"
   },
+  "pre-commit": [
+    "test",
+    "build",
+    "build:add"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://git@bitbucket.org/itavy/mq-connector.git"
+    "url": "git+https://github.com/itavy/mq-connector.git"
   },
+  "keywords": [
+    "mq",
+    "mq-connector",
+    "rabbitmq",
+    "nats"
+  ],
   "author": "Octavian Ionescu <itavyg@gmail.com> (https://github.com/itavy)",
   "license": "MIT",
   "devDependencies": {
-    "@itavy/test-utilities": "^2.0.0",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^15.0.1",
-    "eslint-plugin-import": "^2.6.1",
-    "eslint-plugin-jsx-a11y": "^5.1.0",
-    "eslint-plugin-react": "^7.1.0",
+    "@itavy/test-utilities": "~4.0.0",
+    "babel-cli": "~6.26.0",
+    "babel-plugin-transform-object-rest-spread": "~6.26.0",
+    "babel-preset-env": "~1.6.0",
+    "eslint": "~4.19.1",
+    "eslint-config-airbnb": "~16.1.0",
+    "eslint-plugin-import": "~2.11.0",
+    "eslint-plugin-jsx-a11y": "~6.0.3",
+    "eslint-plugin-react": "~7.7.0",
     "eyes": "^0.1.8",
-    "jaguarjs-jsdoc": "^1.0.2",
-    "jsdoc": "^3.4.3",
-    "jsdoc-to-markdown": "^3.0.0",
-    "pre-commit": "^1.2.2"
+    "jaguarjs-jsdoc": "^1.1.0",
+    "jsdoc": "^3.5.5",
+    "jsdoc-to-markdown": "^4.0.1",
+    "mocha": "^4.0.1",
+    "nyc": "^11.2.1",
+    "pre-commit": "^1.2.2",
+    "tap": "^11.0.1"
+  },
+  "dependencies": {
+    "@itavy/ierror": "^1.1.1",
+    "amqplib": "~0.5.1",
+    "debug": "^2.6.8",
+    "p-event": "^1.3.0",
+    "semver": "^5.3.0"
+  },
+  "nyc": {
+    "all": true,
+    "color:": true,
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 95,
+    "statements": 95,
+    "functions": 95,
+    "branches": 95,
+    "include": [
+      "lib/latest/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "watermarks": {
+      "check-coverage": true,
+      "statements": [
+        50,
+        95
+      ],
+      "lines": [
+        50,
+        95
+      ],
+      "functions": [
+        50,
+        95
+      ],
+      "branches": [
+        50,
+        95
+      ]
+    }
   }
 }
