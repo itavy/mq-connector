@@ -55,7 +55,7 @@ describe('CheckQueue', () => {
   it('Should resolve with provided queue', () => {
     const assertQueueSpy = sandbox.spy(fixtures.amqpChannel, 'assertQueue');
 
-    testConnector.checkQueue({
+    return testConnector.checkQueue({
       ...fixtures.messageOnQueueOnly,
       ch: fixtures.amqpChannel,
     })
@@ -65,7 +65,11 @@ describe('CheckQueue', () => {
         expect(assertQueueSpy.callCount).to.be.equal(1);
         expect(assertQueueSpy.getCall(0).args).to.be.eql([
           fixtures.messageOnQueueOnly.queue,
-          testConnector.subscribeQueueOptions,
+          {
+            exclusive:  true,
+            durable:    false,
+            autoDelete: true,
+          },
         ]);
         return Promise.resolve();
       });

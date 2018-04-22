@@ -12,7 +12,6 @@ describe('Initializaton', () => {
     expect(testConn).to.have.property('connection', null);
     expect(testConn).to.have.property('publishChannel', null);
     expect(testConn).to.have.property('subscribeChannel', null);
-    expect(testConn).to.have.property('subscribeQueueOptions');
     expect(testConn).to.have.property('amqplib');
     expect(testConn).to.have.property('rmqEvents');
     expect(testConn).to.have.property('promiseOnEvent');
