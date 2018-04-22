@@ -11,10 +11,13 @@ describe('SendMessageToMQ', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-      ...fixtures.rabbitmqConnOptions,
-      amqplib: fixtures.amqpLib,
-    });
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
+      fixtures.rabbitmqConnOptions,
+      {
+        amqplib: fixtures.amqpLib,
+      }
+    ));
     return done();
   });
 
@@ -27,12 +30,15 @@ describe('SendMessageToMQ', () => {
   it('Should fail with known error', () => {
     const publishStub = sandbox.stub().returns(false);
 
-    return testConnector.sendMessageToMQ({
-      ...fixtures.publishMessage,
-      ch: {
-        publish: publishStub,
-      },
-    })
+    return testConnector.sendMessageToMQ(Object.assign(
+      {},
+      fixtures.publishMessage,
+      {
+        ch: {
+          publish: publishStub,
+        },
+      }
+    ))
       .should.be.rejected
       .then((response) => {
         expect(response).to.have.property('name', 'MQ_PUBLISH_MESSAGE_ERROR');
@@ -50,12 +56,15 @@ describe('SendMessageToMQ', () => {
 
   it(
     'Should resolve if message is accepted for delivery',
-    () => testConnector.sendMessageToMQ({
-      ...fixtures.publishMessage,
-      ch: {
-        publish: () => true,
-      },
-    })
+    () => testConnector.sendMessageToMQ(Object.assign(
+      {},
+      fixtures.publishMessage,
+      {
+        ch: {
+          publish: () => true,
+        },
+      }
+    ))
       .should.be.fulfilled
       .then(() => Promise.resolve())
   );

@@ -11,10 +11,13 @@ describe('SubscribeToQueue', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-      ...fixtures.rabbitmqConnOptions,
-      amqplib: fixtures.amqpLib,
-    });
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
+      fixtures.rabbitmqConnOptions,
+      {
+        amqplib: fixtures.amqpLib,
+      }
+    ));
     return done();
   });
 
@@ -28,10 +31,13 @@ describe('SubscribeToQueue', () => {
     const consumeStub = sandbox.stub(fixtures.amqpChannel, 'consume')
       .throws(fixtures.testingError);
 
-    return testConnector.subscribeToQueue({
-      ...fixtures.subscribeQueueRequest,
-      ch: fixtures.amqpChannel,
-    })
+    return testConnector.subscribeToQueue(Object.assign(
+      {},
+      fixtures.subscribeQueueRequest,
+      {
+        ch: fixtures.amqpChannel,
+      }
+    ))
       .should.be.rejected
       .then((response) => {
         expect(response).to.be.eql(fixtures.testingError);
@@ -44,10 +50,13 @@ describe('SubscribeToQueue', () => {
   it('Should register provided consumer', () => {
     const subscribeSpy = sandbox.spy(fixtures.amqpChannel, 'consume');
 
-    return testConnector.subscribeToQueue({
-      ...fixtures.subscribeQueueRequest,
-      ch: fixtures.amqpChannel,
-    })
+    return testConnector.subscribeToQueue(Object.assign(
+      {},
+      fixtures.subscribeQueueRequest,
+      {
+        ch: fixtures.amqpChannel,
+      }
+    ))
       .should.be.fulfilled
       .then(() => {
         expect(subscribeSpy.callCount).to.be.equal(1);
@@ -58,10 +67,13 @@ describe('SubscribeToQueue', () => {
   });
 
   it('Should return queue where it subscribed', () =>
-    testConnector.subscribeToQueue({
-      ...fixtures.subscribeQueueRequest,
-      ch: fixtures.amqpChannel,
-    })
+    testConnector.subscribeToQueue(Object.assign(
+      {},
+      fixtures.subscribeQueueRequest,
+      {
+        ch: fixtures.amqpChannel,
+      }
+    ))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('queue');
@@ -69,10 +81,13 @@ describe('SubscribeToQueue', () => {
       }));
 
   it('Should return consumer tag for subscribed queue', () =>
-    testConnector.subscribeToQueue({
-      ...fixtures.subscribeQueueRequest,
-      ch: fixtures.amqpChannel,
-    })
+    testConnector.subscribeToQueue(Object.assign(
+      {},
+      fixtures.subscribeQueueRequest,
+      {
+        ch: fixtures.amqpChannel,
+      }
+    ))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('consumerTag');

@@ -11,10 +11,13 @@ describe('ParseSubscribeOptions', () => {
 
   beforeEach((done) => {
     sandbox = getSinonSandbox();
-    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, {
-      ...fixtures.rabbitmqConnOptions,
-      amqplib: fixtures.amqpLib,
-    });
+    testConnector = connLib.getConnector(connLib.types.RABBIT_MQ, Object.assign(
+      {},
+      fixtures.rabbitmqConnOptions,
+      {
+        amqplib: fixtures.amqpLib,
+      }
+    ));
     return done();
   });
 
@@ -27,8 +30,9 @@ describe('ParseSubscribeOptions', () => {
   it('Should reject for missing required parameters', () => testConnector.parseSubscribeOptions({})
     .should.be.rejected
     .then((response) => {
-      expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
-
+      // expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
+      expect(response).to.have.property('name');
+      expect(response.name.startsWith('AssertionError')).to.be.equal(true);
       return Promise.resolve();
     }));
 
@@ -36,7 +40,9 @@ describe('ParseSubscribeOptions', () => {
     testConnector.parseSubscribeOptions(fixtures.badMessageOnTopic)
       .should.be.rejected
       .then((response) => {
-        expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
+        // expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
+        expect(response).to.have.property('name');
+        expect(response.name.startsWith('AssertionError')).to.be.equal(true);
 
         return Promise.resolve();
       }));
@@ -44,10 +50,13 @@ describe('ParseSubscribeOptions', () => {
   it('Should reject for invalid exchange', () => {
     sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);
 
-    return testConnector.parseSubscribeOptions({
-      ...fixtures.messageOnTopic,
-      ch: fixtures.amqpChannel,
-    })
+    return testConnector.parseSubscribeOptions(Object.assign(
+      {},
+      fixtures.messageOnTopic,
+      {
+        ch: fixtures.amqpChannel,
+      }
+    ))
       .should.be.rejected
       .then((response) => {
         expect(response).to.be.eql(fixtures.testingError);
@@ -58,10 +67,13 @@ describe('ParseSubscribeOptions', () => {
 
   it(
     'Should resolve with provided queue and options',
-    () => testConnector.parseSubscribeOptions({
-      ...fixtures.subscribeQueueRequest,
-      ch: fixtures.amqpChannel,
-    })
+    () => testConnector.parseSubscribeOptions(Object.assign(
+      {},
+      fixtures.subscribeQueueRequest,
+      {
+        ch: fixtures.amqpChannel,
+      }
+    ))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('queue', fixtures.subscribeQueueRequest.queue);
@@ -73,10 +85,13 @@ describe('ParseSubscribeOptions', () => {
 
   it(
     'Should resolve with generated queue and default options',
-    () => testConnector.parseSubscribeOptions({
-      ...fixtures.subscribeTopicRequest,
-      ch: fixtures.amqpChannel,
-    })
+    () => testConnector.parseSubscribeOptions(Object.assign(
+      {},
+      fixtures.subscribeTopicRequest,
+      {
+        ch: fixtures.amqpChannel,
+      }
+    ))
       .should.be.fulfilled
       .then((response) => {
         expect(response).to.have.property('queue', fixtures.generatedQueue);
