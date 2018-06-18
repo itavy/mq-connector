@@ -94,4 +94,19 @@ describe('Subscribe', () => {
         return Promise.resolve();
       });
   });
+
+  it('Should unsubscribe from provided queue', () => {
+    const unsubscribeSpy = sandbox.spy(fixtures.amqpChannel, 'cancel');
+    return testConnector.subscribe(fixtures.subscribeQueueRequest)
+      .should.be.fulfilled
+      .then((response) => {
+        testConnector.unsubscribe({ consumerTag: response.consumerTag })
+          .should.be.fulfilled
+          .then((result) => {
+            expect(unsubscribeSpy.callCount).to.be.equal(1);
+            expect(result.consumerTag).to.be.equal(response.consumerTag);
+            return Promise.resolve();
+          });
+      });
+  });
 });
