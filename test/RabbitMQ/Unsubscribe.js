@@ -5,7 +5,7 @@ const connLib = require('../../');
 const fixtures = require('./Fixtures');
 
 
-describe('Subscribe', () => {
+describe('Unsubscribe', () => {
   let sandbox;
   let testConnector;
 
