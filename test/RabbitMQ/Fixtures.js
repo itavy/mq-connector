@@ -19,6 +19,7 @@ const amqpChannel = {
     queue,
   }),
   consume:         () => Promise.resolve({ consumerTag }),
+  cancel:          () => Promise.resolve({ consumerTag }),
   prefetch:        () => null,
   close:           () => Promise.resolve(),
   waitForConfirms: () => Promise.resolve(),
