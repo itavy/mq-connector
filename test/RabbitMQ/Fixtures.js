@@ -12,7 +12,10 @@ const consumerTag = crypto.randomBytes(32).toString('hex');
 const generatedQueue = 'generatedQueue';
 
 const amqpChannel = {
-  publish:       () => true,
+  publish: (exchange, queue, message, options, confirmCallback) => {
+    confirmCallback(null);
+    return true;
+  },
   checkExchange: () => Promise.resolve(),
   bindQueue:     () => Promise.resolve(),
   assertQueue:   (queue = generatedQueue) => Promise.resolve({
