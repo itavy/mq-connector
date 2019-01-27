@@ -9,17 +9,12 @@
     "test:e2e:rabbitmq": "./node_modules/.bin/tap -b -t 5 ./test/e2e/RabbitMQ/*.js",
     "test:coverage": "./node_modules/.bin/nyc npm test",
     "test:check-style": "./node_modules/.bin/eslint index.js \"lib/latest/*.js\" \"test/**/*.js\"",
-    "build": "npm run build:v6x",
-    "build:add": "git add lib",
-    "build:v6x": "BABEL_ENV=v6x ./node_modules/.bin/babel lib/latest -d lib/v6x",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "docs-md": "./node_modules/.bin/jsdoc2md --template README.hbs lib/latest/*.js > README.md",
     "pretest": "npm run test:check-style"
   },
   "pre-commit": [
-    "test",
-    "build",
-    "build:add"
+    "test:coverage"
   ],
   "repository": {
     "type": "git",
@@ -34,23 +29,19 @@
   "author": "Octavian Ionescu <itavyg@gmail.com> (https://github.com/itavy)",
   "license": "MIT",
   "devDependencies": {
-    "@itavy/test-utilities": "~4.0.0",
-    "babel-cli": "~6.26.0",
-    "babel-plugin-transform-object-rest-spread": "~6.26.0",
-    "babel-preset-env": "~1.6.0",
-    "eslint": "~4.19.1",
-    "eslint-config-airbnb": "~16.1.0",
-    "eslint-plugin-import": "~2.11.0",
-    "eslint-plugin-jsx-a11y": "~6.0.3",
-    "eslint-plugin-react": "~7.7.0",
-    "eyes": "^0.1.8",
-    "jaguarjs-jsdoc": "^1.1.0",
-    "jsdoc": "^3.5.5",
-    "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "^4.0.1",
-    "nyc": "^11.2.1",
+    "@itavy/test-utilities": "~6.0.1",
+    "eslint": "~5.12.1",
+    "eslint-config-airbnb": "~17.1.0",
+    "eslint-plugin-import": "~2.15.0",
+    "eslint-plugin-jsx-a11y": "~6.2.0",
+    "eslint-plugin-react": "~7.12.4",
+    "jaguarjs-jsdoc": "~1.1.0",
+    "jsdoc": "~3.5.5",
+    "jsdoc-to-markdown": "~4.0.1",
+    "mocha": "~5.2.0",
+    "nyc": "~13.1.0",
     "pre-commit": "^1.2.2",
-    "tap": "^11.0.1"
+    "tap": "^12.4.0"
   },
   "dependencies": {
     "@itavy/ierror": "^1.1.1",

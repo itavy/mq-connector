@@ -40,8 +40,8 @@ describe('GetPublishChannel', () => {
   });
 
   it('Should call createChannel with expected parameters', () => {
-    const createChannelStub =
-      sandbox.stub(testConnector, 'createChannel').rejects(fixtures.testingError);
+    const createChannelStub = sandbox.stub(testConnector, 'createChannel')
+      .rejects(fixtures.testingError);
 
     return testConnector.getPublishChannel({})
       .should.be.rejected

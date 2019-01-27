@@ -27,13 +27,15 @@ describe('CloseChannel', () => {
     done();
   });
 
-  it('Should resosolve if channel does not exist', () =>
-    testConnector.closeChannel(fixtures.closeChannelOptions.publish)
-      .should.be.fulfilled
-      .then(() => Promise.resolve()));
+  it('Should resosolve if channel does not exist', () => testConnector.closeChannel(
+    fixtures.closeChannelOptions.publish
+  )
+    .should.be.fulfilled
+    .then(() => Promise.resolve()));
 
   it('Should wait for confirms before closing', () => {
-    const waitStub = sandbox.stub(fixtures.amqpChannel, 'waitForConfirms').rejects(fixtures.testingError);
+    const waitStub = sandbox.stub(fixtures.amqpChannel, 'waitForConfirms')
+      .rejects(fixtures.testingError);
 
     return testConnector.getPublishChannel()
       .then(() => testConnector.closeChannel(fixtures.closeChannelOptions.publish)

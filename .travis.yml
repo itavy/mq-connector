@@ -3,9 +3,9 @@ dist: trusty
 language: node_js
 
 node_js:
-  - "6"
   - "8"
+  - "10"
+  - "11"
 
 script:
-  - if [ "$TRAVIS_NODE_VERSION" = "6" ]; then npm run test; fi
-  - if [ "$TRAVIS_NODE_VERSION" = "8" ]; then npm run test:coverage; fi
+  - npm run test:coverage

@@ -66,31 +66,33 @@ describe('SubscribeToQueue', () => {
       });
   });
 
-  it('Should return queue where it subscribed', () =>
-    testConnector.subscribeToQueue(Object.assign(
+  it('Should return queue where it subscribed', () => testConnector.subscribeToQueue(
+    Object.assign(
       {},
       fixtures.subscribeQueueRequest,
       {
         ch: fixtures.amqpChannel,
       }
-    ))
-      .should.be.fulfilled
-      .then((response) => {
-        expect(response).to.have.property('queue');
-        return Promise.resolve();
-      }));
+    )
+  )
+    .should.be.fulfilled
+    .then((response) => {
+      expect(response).to.have.property('queue');
+      return Promise.resolve();
+    }));
 
-  it('Should return consumer tag for subscribed queue', () =>
-    testConnector.subscribeToQueue(Object.assign(
+  it('Should return consumer tag for subscribed queue', () => testConnector.subscribeToQueue(
+    Object.assign(
       {},
       fixtures.subscribeQueueRequest,
       {
         ch: fixtures.amqpChannel,
       }
-    ))
-      .should.be.fulfilled
-      .then((response) => {
-        expect(response).to.have.property('consumerTag');
-        return Promise.resolve();
-      }));
+    )
+  )
+    .should.be.fulfilled
+    .then((response) => {
+      expect(response).to.have.property('consumerTag');
+      return Promise.resolve();
+    }));
 });

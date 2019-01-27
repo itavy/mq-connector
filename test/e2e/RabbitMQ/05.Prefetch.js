@@ -1,10 +1,10 @@
 'use strict';
 
+const amqplib = require('amqplib');
+const tap = require('tap');
+
 const connLib = require('../../../');
 const fixtures = require('./Fixtures/Fixtures');
-const amqplib = require('amqplib');
-
-const tap = require('tap');
 
 tap.test('Send message on topic', (t) => {
   t.plan(12);
