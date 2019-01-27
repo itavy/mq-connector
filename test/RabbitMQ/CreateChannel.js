@@ -28,8 +28,9 @@ describe('CreateChannel', () => {
   });
 
   it('Should reject with specific error', () => {
-    const connectFail =
-      sandbox.stub(testConnector, 'getConnection').rejects(fixtures.testingError);
+    const connectFail = sandbox
+      .stub(testConnector, 'getConnection')
+      .rejects(fixtures.testingError);
 
     return testConnector.createChannel({})
       .should.be.rejected
@@ -45,8 +46,8 @@ describe('CreateChannel', () => {
   });
 
   it('Should call createConfirmChannel', () => {
-    const createConfirmChannelFail =
-      sandbox.stub(fixtures.amqpConnection, 'createConfirmChannel').rejects(fixtures.testingError);
+    const createConfirmChannelFail = sandbox.stub(fixtures.amqpConnection, 'createConfirmChannel')
+      .rejects(fixtures.testingError);
 
     return testConnector.createChannel(fixtures.createChannelOptions.publish)
       .should.be.rejected

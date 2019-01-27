@@ -36,16 +36,16 @@ describe('ParseSubscribeOptions', () => {
       return Promise.resolve();
     }));
 
-  it('Should reject for missing required parameters - no topic', () =>
-    testConnector.parseSubscribeOptions(fixtures.badMessageOnTopic)
-      .should.be.rejected
-      .then((response) => {
-        // expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
-        expect(response).to.have.property('name');
-        expect(response.name.startsWith('AssertionError')).to.be.equal(true);
+  it('Should reject for missing required parameters - no topic', () => testConnector
+    .parseSubscribeOptions(fixtures.badMessageOnTopic)
+    .should.be.rejected
+    .then((response) => {
+      // expect(response).to.have.property('name', 'AssertionError [ERR_ASSERTION]');
+      expect(response).to.have.property('name');
+      expect(response.name.startsWith('AssertionError')).to.be.equal(true);
 
-        return Promise.resolve();
-      }));
+      return Promise.resolve();
+    }));
 
   it('Should reject for invalid exchange', () => {
     sandbox.stub(fixtures.amqpChannel, 'checkExchange').rejects(fixtures.testingError);

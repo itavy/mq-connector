@@ -29,8 +29,8 @@ describe('GetConnection', () => {
 
 
   it('Should reject with specific error', () => {
-    const connectFail =
-      sandbox.stub(testConnector.amqplib, 'connect').rejects(fixtures.testingError);
+    const connectFail = sandbox.stub(testConnector.amqplib, 'connect')
+      .rejects(fixtures.testingError);
 
     return testConnector.getConnection()
       .should.be.rejected
